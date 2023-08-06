@@ -43,6 +43,7 @@ export default function CreateUserAccountDialog({
   });
   const [role, setRole] = useState("");
   const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState(false);
 
   // Regular expression for basic email validation
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -59,10 +60,10 @@ export default function CreateUserAccountDialog({
       // Check email validation when handling email input
       if (!emailRegex.test(value)) {
         setFormData((prevFormData) => ({
-              ...prevFormData,
-              [id]: value,
-              role: role,
-            }));
+          ...prevFormData,
+          [id]: value,
+          role: role,
+        }));
         setEmailError("Please enter a valid email address");
       } else {
         setFormData((prevFormData) => ({
@@ -71,6 +72,21 @@ export default function CreateUserAccountDialog({
           role: role,
         }));
         setEmailError("");
+      }
+    } else if (id === "confirm-password") {
+      // Validate when handling confirm password input
+      if (value !== formData.password) {
+        setFormData((prevFormData) => ({
+          ...prevFormData,
+          [id]: value,
+        }));
+        setPasswordError("Passwords do not match");
+      } else {
+        setFormData((prevFormData) => ({
+          ...prevFormData,
+          [id]: value,
+        }));
+        setPasswordError("");
       }
     } else {
       setFormData((prevFormData) => ({
@@ -158,15 +174,15 @@ export default function CreateUserAccountDialog({
               />
             </Grid>
             <Grid item xs={12} md={6}>
-            <TextField
-              id="email"
-              label="Email"
-              variant="outlined"
-              fullWidth
-              onChange={handleChange}
-              error={!!emailError}
-              helperText={emailError}
-            />
+              <TextField
+                id="email"
+                label="Email"
+                variant="outlined"
+                fullWidth
+                onChange={handleChange}
+                error={!!emailError}
+                helperText={emailError}
+              />
             </Grid>
             <Grid item xs={12} md={6}>
               <Autocomplete
@@ -211,6 +227,10 @@ export default function CreateUserAccountDialog({
                 <OutlinedInput
                   id="confirm-password"
                   type={showPassword ? "text" : "password"}
+                  value={formData.confirmPassword}
+                  error={!!passwordError}
+                  helperText={passwordError}
+                  onChange={handleChange}
                   endAdornment={
                     <InputAdornment position="end">
                       <IconButton
@@ -223,7 +243,7 @@ export default function CreateUserAccountDialog({
                       </IconButton>
                     </InputAdornment>
                   }
-                  label="Password"
+                  label="Confirm Password"
                 />
               </FormControl>
             </Grid>
