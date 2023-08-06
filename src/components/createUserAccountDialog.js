@@ -42,6 +42,10 @@ export default function CreateUserAccountDialog({
     password: "",
   });
   const [role, setRole] = useState("");
+  const [emailError, setEmailError] = useState("");
+
+  // Regular expression for basic email validation
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   // Log the input value when it changes
   const handleRoleChange = (event, newInputValue) => {
@@ -50,11 +54,31 @@ export default function CreateUserAccountDialog({
 
   const handleChange = (event) => {
     const { id, value } = event.target;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [id]: value,
-      role: role,
-    }));
+
+    if (id === "email") {
+      // Check email validation when handling email input
+      if (!emailRegex.test(value)) {
+        setFormData((prevFormData) => ({
+              ...prevFormData,
+              [id]: value,
+              role: role,
+            }));
+        setEmailError("Please enter a valid email address");
+      } else {
+        setFormData((prevFormData) => ({
+          ...prevFormData,
+          [id]: value,
+          role: role,
+        }));
+        setEmailError("");
+      }
+    } else {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        [id]: value,
+        role: role,
+      }));
+    }
   };
 
   const handleSave = () => {
@@ -134,13 +158,15 @@ export default function CreateUserAccountDialog({
               />
             </Grid>
             <Grid item xs={12} md={6}>
-              <TextField
-                id="email"
-                label="Email"
-                variant="outlined"
-                fullWidth
-                onChange={handleChange}
-              />
+            <TextField
+              id="email"
+              label="Email"
+              variant="outlined"
+              fullWidth
+              onChange={handleChange}
+              error={!!emailError}
+              helperText={emailError}
+            />
             </Grid>
             <Grid item xs={12} md={6}>
               <Autocomplete
