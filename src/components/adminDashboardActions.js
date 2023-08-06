@@ -38,7 +38,7 @@ const AdminDashboardActions = () => {
         <Typography variant="h3" align="center" gutterBottom>
           Admin Dashboard
         </Typography>
-        <Grid container spacing={8}>
+        <Grid container spacing={6}>
           <Grid item xs={12} md={4} sm={6}>
             <Button
               onClick={handleClickOpen}
