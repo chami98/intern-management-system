@@ -35,12 +35,12 @@ export default function CreateUserAccountDialog({
 }) {
   const [showPassword, setShowPassword] = React.useState(false);
   const [formData, setFormData] = React.useState({
-    name: "",
+    firstname: "",
+    lastname: "",
     email: "",
-    role: null, 
+    role: null,
     password: "",
   });
-  const [value, setValue] = useState(null);
   const [role, setRole] = useState("");
 
   // Log the input value when it changes
@@ -62,15 +62,14 @@ export default function CreateUserAccountDialog({
       .post("http://localhost:5000/api/register", formData)
       .then((response) => {
         console.log("Response from the server:", response.data);
+        // Close the dialog after saving
+        handleClose();
       })
       .catch((error) => {
         // Handle error if needed
       });
 
     console.log("Form data to be sent:", formData);
-
-    // Close the dialog after saving
-    handleClose();
   };
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -118,7 +117,7 @@ export default function CreateUserAccountDialog({
           <Grid container spacing={2}>
             <Grid item xs={12} md={6}>
               <TextField
-                id="name"
+                id="firstname"
                 label="First Name"
                 variant="outlined"
                 fullWidth
@@ -127,10 +126,11 @@ export default function CreateUserAccountDialog({
             </Grid>
             <Grid item xs={12} md={6}>
               <TextField
-                id="last_name"
+                id="lastname"
                 label="Last Name"
                 variant="outlined"
                 fullWidth
+                onChange={handleChange}
               />
             </Grid>
             <Grid item xs={12} md={6}>
