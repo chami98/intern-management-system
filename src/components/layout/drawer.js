@@ -15,6 +15,7 @@ import MailIcon from '@mui/icons-material/Mail';
 
 import DrawerHeader from './drawer-header';
 import constants from './constants.json'
+import { Group, Logout, ManageAccounts } from '@mui/icons-material';
 
 const { drawerWidth } = constants;
 
@@ -85,7 +86,7 @@ export default function MiniDrawer({ open, handleDrawerClose }) {
                   justifyContent: 'center',
                 }}
               >
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                {index % 2 === 0 ? <ManageAccounts /> : <Group/>}
               </ListItemIcon>
               <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
             </ListItemButton>
@@ -110,7 +111,7 @@ export default function MiniDrawer({ open, handleDrawerClose }) {
                   justifyContent: 'center',
                 }}
               >
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                {index % 2 === 0 ? <Logout /> : <Group />}
               </ListItemIcon>
               <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
             </ListItemButton>
