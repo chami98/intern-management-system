@@ -7,6 +7,9 @@ import {
   PostAdd,
   ListAlt,
   AssignmentInd,
+  AccountCircle,
+  School,
+  ManageAccounts,
 } from "@mui/icons-material";
 import CreateUserAccountDialog from "./createUserAccountDialog";
 
@@ -68,9 +71,9 @@ const AdminDashboardActions = () => {
               color="primary"
               fullWidth
               style={buttonStyle}
-              startIcon={<Settings style={iconStyle} />}
+              startIcon={<School style={iconStyle} />}
             >
-              Upgrade/Downgrade Permission Levels
+              Create an intern profile
             </Button>
           </Grid>
           <Grid item xs={12} md={4} sm={6}>
@@ -90,9 +93,9 @@ const AdminDashboardActions = () => {
               color="primary"
               fullWidth
               style={buttonStyle}
-              startIcon={<ListAlt style={iconStyle} />}
+              startIcon={<ManageAccounts style={iconStyle} />}
             >
-              Define Evaluation Criteria
+              Update intern profile status
             </Button>
           </Grid>
           <Grid item xs={12} md={4} sm={6}>
