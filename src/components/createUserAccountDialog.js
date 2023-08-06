@@ -66,7 +66,7 @@ export default function CreateUserAccountDialog({
         handleClose();
       })
       .catch((error) => {
-        // Handle error if needed
+        console.error("Error occurred during the request:", error);
       });
 
     console.log("Form data to be sent:", formData);
