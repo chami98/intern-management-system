@@ -1,10 +1,7 @@
 import * as React from "react";
+import { useState } from "react";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
-import ListItemText from "@mui/material/ListItemText";
-import ListItem from "@mui/material/ListItem";
-import List from "@mui/material/List";
-import Divider from "@mui/material/Divider";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
@@ -24,6 +21,7 @@ import {
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import OutlinedInput from "@mui/material/OutlinedInput";
+import axios from "axios";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -36,6 +34,44 @@ export default function CreateUserAccountDialog({
   handleClose,
 }) {
   const [showPassword, setShowPassword] = React.useState(false);
+  const [formData, setFormData] = React.useState({
+    name: "",
+    email: "",
+    role: null, 
+    password: "",
+  });
+  const [value, setValue] = useState(null);
+  const [role, setRole] = useState("");
+
+  // Log the input value when it changes
+  const handleRoleChange = (event, newInputValue) => {
+    setRole(newInputValue);
+  };
+
+  const handleChange = (event) => {
+    const { id, value } = event.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [id]: value,
+      role: role,
+    }));
+  };
+
+  const handleSave = () => {
+    axios
+      .post("http://localhost:5000/api/register", formData)
+      .then((response) => {
+        console.log("Response from the server:", response.data);
+      })
+      .catch((error) => {
+        // Handle error if needed
+      });
+
+    console.log("Form data to be sent:", formData);
+
+    // Close the dialog after saving
+    handleClose();
+  };
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -73,7 +109,7 @@ export default function CreateUserAccountDialog({
             <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
               {title}
             </Typography>
-            <Button autoFocus color="inherit" onClick={handleClose}>
+            <Button autoFocus color="inherit" onClick={handleSave}>
               save
             </Button>
           </Toolbar>
@@ -82,10 +118,11 @@ export default function CreateUserAccountDialog({
           <Grid container spacing={2}>
             <Grid item xs={12} md={6}>
               <TextField
-                id="first_name"
+                id="name"
                 label="First Name"
                 variant="outlined"
                 fullWidth
+                onChange={handleChange}
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -102,14 +139,16 @@ export default function CreateUserAccountDialog({
                 label="Email"
                 variant="outlined"
                 fullWidth
+                onChange={handleChange}
               />
             </Grid>
             <Grid item xs={12} md={6}>
               <Autocomplete
                 disablePortal
-                id="combo-box-demo"
+                id="role"
                 options={roles}
                 sx={{ width: "100%" }}
+                onInputChange={handleRoleChange}
                 renderInput={(params) => <TextField {...params} label="Role" />}
               />
             </Grid>
@@ -119,8 +158,9 @@ export default function CreateUserAccountDialog({
                   Password
                 </InputLabel>
                 <OutlinedInput
-                  id="outlined-adornment-password"
+                  id="password"
                   type={showPassword ? "text" : "password"}
+                  onChange={handleChange}
                   endAdornment={
                     <InputAdornment position="end">
                       <IconButton
@@ -143,7 +183,7 @@ export default function CreateUserAccountDialog({
                   Confirm Password
                 </InputLabel>
                 <OutlinedInput
-                  id="outlined-adornment-password"
+                  id="confirm-password"
                   type={showPassword ? "text" : "password"}
                   endAdornment={
                     <InputAdornment position="end">
