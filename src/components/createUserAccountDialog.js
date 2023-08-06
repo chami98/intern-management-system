@@ -22,6 +22,8 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import axios from "axios";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -102,10 +104,29 @@ export default function CreateUserAccountDialog({
       .post("http://localhost:5000/api/register", formData)
       .then((response) => {
         console.log("Response from the server:", response.data);
+        
+        toast.success("User account created successfully!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
         // Close the dialog after saving
         handleClose();
       })
       .catch((error) => {
+        toast.error("Error occurred during the request. Please try again later.", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
         console.error("Error occurred during the request:", error);
       });
 
