@@ -104,7 +104,9 @@ export default function CreateInternProfile({
   };
 
   const [evaluation1Score, setEvalution1Score] = useState("");
+  const [evaluation2Score, setEvalution2Score] = useState("");
   const [evaluation1Feedback, setEvalution1Feedback] = useState("");
+  const [evaluation2Feedback, setEvalution2Feedback] = useState("");
 
   const [feedback, setFeedback] = useState("");
 
@@ -112,9 +114,18 @@ export default function CreateInternProfile({
     setEvalution1Score(event.target.value);
   };
 
+  const handleEvalution2ScoreChange = (event) => {
+    setEvalution2Score(event.target.value);
+  };
+
   const handleEvalution1FeedbackChange = (event) => {
     setEvalution1Feedback(event.target.value);
   };
+
+  const handleEvalution2FeedbackChange = (event) => {
+    setEvalution2Feedback(event.target.value);
+  };
+
   const handleFeedbackChange = (event) => {
     setFeedback(event.target.value);
   };
@@ -204,7 +215,10 @@ export default function CreateInternProfile({
             </Button>
           </Toolbar>
         </AppBar>
-        <Box sx={{ margin: "60px" }}>
+        <Box sx={{ margin: "60px", marginTop: "30px" }}>
+          <Typography variant="h6" gutterBottom>
+            Personal Information:
+          </Typography>
           <Grid container spacing={2}>
             <Grid item xs={12} md={6}>
               <TextField
@@ -256,6 +270,9 @@ export default function CreateInternProfile({
             </Grid>
           </Grid>
           <Box sx={{ marginTop: "18px" }}>
+            <Typography variant="h6" gutterBottom>
+              Project Details:
+            </Typography>
             <Grid container spacing={2}>
               <Grid item xs={12} md={6}>
                 <Autocomplete
@@ -283,23 +300,29 @@ export default function CreateInternProfile({
               </Grid>
             </Grid>
             <Box sx={{ marginTop: "18px" }}>
+              <Typography variant="h6" gutterBottom>
+                Evolution Information:
+              </Typography>
               <Grid container spacing={2}>
                 <Grid item xs={12} md={6}>
                   <TextField
                     id="interview_score"
-                    label="Interview Score"
+                    label="Interview Score I"
                     variant="outlined"
                     fullWidth
                     onChange={handleChange}
                   />
                 </Grid>
                 <Grid item xs={12} md={6}>
-                  <TextField
-                    id="interview_feedback"
-                    label="Interview Feedback"
+                <TextField
+                    id="evalution1_feedback1"
+                    label={`Evolution  Feedback II`}
+                    variant="outlined"
+                    value={evaluation1Feedback}
                     multiline
+                    onChange={handleEvalution1FeedbackChange}
                     fullWidth
-                    maxRows={5}
+                    
                   />
                 </Grid>
               </Grid>
@@ -307,7 +330,7 @@ export default function CreateInternProfile({
                 <Grid item xs={12} md={6}>
                   <TextField
                     id="Evolution1_score"
-                    label={`Evolution  Score`}
+                    label={`Evolution Score II`}
                     variant="outlined"
                     value={evaluation1Score}
                     onChange={handleEvalution1ScoreChange}
@@ -318,11 +341,11 @@ export default function CreateInternProfile({
                 <Grid item xs={12} md={6}>
                   <TextField
                     id="evalution1_feedback"
-                    label={`Evolution  Feedback`}
+                    label={`Evolution  Feedback II`}
                     variant="outlined"
-                    value={evaluation1Feedback}
+                    value={evaluation2Feedback}
                     multiline
-                    onChange={handleEvalution1FeedbackChange}
+                    onChange={handleEvalution2FeedbackChange}
                     fullWidth
                     margin="normal"
                   />
