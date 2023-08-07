@@ -12,6 +12,7 @@ import {
   ManageAccounts,
 } from "@mui/icons-material";
 import CreateUserAccountDialog from "./createUserAccountDialog";
+import CreateInternProfile from "./createInternProfile";
 
 const buttonStyle = {
   display: "flex",
@@ -25,14 +26,23 @@ const iconStyle = {
 };
 
 const AdminDashboardActions = () => {
-  const [open, setOpen] = React.useState(false);
+  const [userAccountOpen, setUserAccountOpen] = React.useState(false);
+  const [internAccountOpen, setInternAccountOpen] = React.useState(false);
 
-  const handleClickOpen = () => {
-    setOpen(true);
+  const handleUserAccountClickOpen = () => {
+    setUserAccountOpen(true);
   };
 
-  const handleClose = () => {
-    setOpen(false);
+  const handleUserAccountClose = () => {
+    setUserAccountOpen(false);
+  };
+
+  const handleInternAccountClickOpen = () => {
+    setInternAccountOpen(true);
+  };
+
+  const handleInternAccountClose = () => {
+    setInternAccountOpen(false);
   };
 
   return (
@@ -44,7 +54,7 @@ const AdminDashboardActions = () => {
         <Grid container spacing={6}>
           <Grid item xs={12} md={4} sm={6}>
             <Button
-              onClick={handleClickOpen}
+              onClick={handleUserAccountClickOpen}
               variant="contained"
               color="primary"
               fullWidth
@@ -67,6 +77,7 @@ const AdminDashboardActions = () => {
           </Grid>
           <Grid item xs={12} md={4} sm={6}>
             <Button
+              onClick={handleInternAccountClickOpen}
               variant="contained"
               color="primary"
               fullWidth
@@ -111,8 +122,18 @@ const AdminDashboardActions = () => {
           </Grid>
         </Grid>
       </Container>
-
-      <CreateUserAccountDialog title={"Create User Account"} handleClickOpen={handleClickOpen} handleClose={handleClose} open={open}/>
+      <CreateInternProfile
+        title={"Create Intern Profile"}
+        handleClickOpen={handleInternAccountClickOpen}
+        handleClose={handleInternAccountClose}
+        open={internAccountOpen}
+      />
+      <CreateUserAccountDialog
+        title={"Create User Account"}
+        handleClickOpen={handleUserAccountClickOpen}
+        handleClose={handleUserAccountClose}
+        open={userAccountOpen}
+      />
     </>
   );
 };
