@@ -32,6 +32,7 @@ export default function CreateInternProfile({
     firstname: "",
     lastname: "",
     university: university,
+    gpa: "",
     accomplishments: "",
     mentor: mentor,
     team: team,
@@ -67,6 +68,7 @@ export default function CreateInternProfile({
       firstname: formData.firstname,
       lastname: formData.lastname,
       university: university,
+      gpa: formData.gpa,
       accomplishments: formData.accomplishments,
       mentor: mentor,
       team: team,
@@ -77,11 +79,11 @@ export default function CreateInternProfile({
     };
 
     axios
-      .post("http://localhost:5000/api/register", formDataToSend)
+      .post("http://localhost:5000/api/interns", formDataToSend)
       .then((response) => {
         console.log("Response from the server:", response.data);
 
-        toast.success("User account created successfully!", {
+        toast.success("Intern account created successfully!", {
           position: "top-right",
           autoClose: 5000,
           hideProgressBar: false,
