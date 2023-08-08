@@ -9,19 +9,7 @@ import Typography from "@mui/material/Typography";
 import CloseIcon from "@mui/icons-material/Close";
 import Slide from "@mui/material/Slide";
 import { useTheme } from "@mui/material/styles";
-import {
-  Box,
-  Grid,
-  TextField,
-  InputAdornment,
-  InputLabel,
-  FormControl,
-  Autocomplete,
-  Chip,
-} from "@mui/material";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import OutlinedInput from "@mui/material/OutlinedInput";
+import { Box, Grid, TextField, Autocomplete } from "@mui/material";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -36,19 +24,30 @@ export default function CreateInternProfile({
   handleClickOpen,
   handleClose,
 }) {
-  const [formData, setFormData] = React.useState({
-    firstname: "",
-    lastname: "",
-    email: "",
-    role: null,
-    password: "",
-  });
-
   const [university, setUniversity] = useState("");
   const [mentor, setMentor] = useState("");
   const [team, setTeam] = useState("");
 
-  const handleChange = (event) => {};
+  const [formData, setFormData] = React.useState({
+    firstname: "",
+    lastname: "",
+    university: university,
+    accomplishments: "",
+    mentor: mentor,
+    team: team,
+    interview_1_score: "",
+    interview_2_score: "",
+    evaluation_1_feedback: "",
+    evaluation_2_feedback: "",
+  });
+
+  const handleChange = (event) => {
+    const { id, value } = event.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [id]: value,
+    }));
+  };
 
   const handleUniversity = (event, newInputValue) => {
     setUniversity(newInputValue);
@@ -60,11 +59,25 @@ export default function CreateInternProfile({
 
   const handleTeam = (event, newInputValue) => {
     setTeam(newInputValue);
+    console.log(team);
   };
 
   const handleSave = () => {
+    const formDataToSend = {
+      firstname: formData.firstname,
+      lastname: formData.lastname,
+      university: university,
+      accomplishments: formData.accomplishments,
+      mentor: mentor,
+      team: team,
+      interview_1_score: formData.interview_1_score,
+      interview_2_score: formData.interview_2_score,
+      evaluation_1_feedback: formData.evaluation_1_feedback,
+      evaluation_2_feedback: formData.evaluation_2_feedback,
+    };
+
     axios
-      .post("http://localhost:5000/api/register", formData)
+      .post("http://localhost:5000/api/register", formDataToSend)
       .then((response) => {
         console.log("Response from the server:", response.data);
 
@@ -96,7 +109,7 @@ export default function CreateInternProfile({
         console.error("Error occurred during the request:", error);
       });
 
-    console.log("Form data to be sent:", formData);
+    console.log("Form data to be sent:", formDataToSend);
   };
 
   const handleMouseDownPassword = (event) => {
@@ -266,6 +279,7 @@ export default function CreateInternProfile({
                 multiline
                 fullWidth
                 maxRows={5}
+                onChange={handleChange}
               />
             </Grid>
           </Grid>
@@ -292,7 +306,7 @@ export default function CreateInternProfile({
                   id="team"
                   options={teams}
                   sx={{ width: "100%" }}
-                  onInputChange={handleMentor}
+                  onInputChange={handleTeam}
                   renderInput={(params) => (
                     <TextField {...params} label="Team" />
                   )}
@@ -306,7 +320,7 @@ export default function CreateInternProfile({
               <Grid container spacing={2}>
                 <Grid item xs={12} md={6}>
                   <TextField
-                    id="interview_score"
+                    id="interview_1_score"
                     label="Interview Score I"
                     variant="outlined"
                     fullWidth
@@ -314,38 +328,34 @@ export default function CreateInternProfile({
                   />
                 </Grid>
                 <Grid item xs={12} md={6}>
-                <TextField
-                    id="evalution1_feedback1"
-                    label={`Evolution  Feedback II`}
+                  <TextField
+                    id="evaluation_1_feedback"
+                    label={`Evolution  Feedback I`}
                     variant="outlined"
-                    value={evaluation1Feedback}
                     multiline
-                    onChange={handleEvalution1FeedbackChange}
+                    onChange={handleChange}
                     fullWidth
-                    
                   />
                 </Grid>
               </Grid>
               <Grid container spacing={2}>
                 <Grid item xs={12} md={6}>
                   <TextField
-                    id="Evolution1_score"
+                    id="interview_2_score"
                     label={`Evolution Score II`}
                     variant="outlined"
-                    value={evaluation1Score}
-                    onChange={handleEvalution1ScoreChange}
+                    onChange={handleChange}
                     fullWidth
                     margin="normal"
                   />
                 </Grid>
                 <Grid item xs={12} md={6}>
                   <TextField
-                    id="evalution1_feedback"
+                    id="evaluation_2_feedback"
                     label={`Evolution  Feedback II`}
                     variant="outlined"
-                    value={evaluation2Feedback}
                     multiline
-                    onChange={handleEvalution2FeedbackChange}
+                    onChange={handleChange}
                     fullWidth
                     margin="normal"
                   />
