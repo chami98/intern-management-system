@@ -59,6 +59,13 @@ const AdminDashboardActions = () => {
               color="primary"
               fullWidth
               style={buttonStyle}
+              sx={{
+                ...buttonStyle,
+                transition: "transform 0.2s",
+                "&:hover": {
+                  transform: "scale(1.07)",
+                },
+              }}
               startIcon={<PersonAdd style={iconStyle} />}
             >
               Create User Account
@@ -70,6 +77,13 @@ const AdminDashboardActions = () => {
               color="primary"
               fullWidth
               style={buttonStyle}
+              sx={{
+                ...buttonStyle,
+                transition: "transform 0.2s",
+                "&:hover": {
+                  transform: "scale(1.07)",
+                },
+              }}
               startIcon={<Mail style={iconStyle} />}
             >
               Invite New Users
@@ -82,6 +96,13 @@ const AdminDashboardActions = () => {
               color="primary"
               fullWidth
               style={buttonStyle}
+              sx={{
+                ...buttonStyle,
+                transition: "transform 0.2s",
+                "&:hover": {
+                  transform: "scale(1.07)",
+                },
+              }}
               startIcon={<School style={iconStyle} />}
             >
               Create an intern profile
@@ -93,6 +114,13 @@ const AdminDashboardActions = () => {
               color="primary"
               fullWidth
               style={buttonStyle}
+              sx={{
+                ...buttonStyle,
+                transition: "transform 0.2s",
+                "&:hover": {
+                  transform: "scale(1.07)",
+                },
+              }}
               startIcon={<PostAdd style={iconStyle} />}
             >
               Create Evaluation Form
@@ -104,6 +132,13 @@ const AdminDashboardActions = () => {
               color="primary"
               fullWidth
               style={buttonStyle}
+              sx={{
+                ...buttonStyle,
+                transition: "transform 0.2s",
+                "&:hover": {
+                  transform: "scale(1.07)",
+                },
+              }}
               startIcon={<ManageAccounts style={iconStyle} />}
             >
               Update intern profile status
@@ -115,6 +150,13 @@ const AdminDashboardActions = () => {
               color="primary"
               fullWidth
               style={{ ...buttonStyle, gridColumn: "span 2" }}
+              sx={{
+                ...buttonStyle,
+                transition: "transform 0.2s",
+                "&:hover": {
+                  transform: "scale(1.07)",
+                },
+              }}
               startIcon={<AssignmentInd style={iconStyle} />}
             >
               Assign Evaluators and Mentors
