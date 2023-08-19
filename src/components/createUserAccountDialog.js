@@ -37,8 +37,8 @@ export default function CreateUserAccountDialog({
 }) {
   const [showPassword, setShowPassword] = React.useState(false);
   const [formData, setFormData] = React.useState({
-    firstname: "",
-    lastname: "",
+    first_name: "",
+    last_name: "",
     email: "",
     role: null,
     password: "",
@@ -104,7 +104,9 @@ export default function CreateUserAccountDialog({
       .post("http://localhost:5000/api/register", formData)
       .then((response) => {
         console.log("Response from the server:", response.data);
-        
+
+        // Check the response status and customize the toast message
+
         toast.success("User account created successfully!", {
           position: "top-right",
           autoClose: 5000,
@@ -114,19 +116,23 @@ export default function CreateUserAccountDialog({
           draggable: true,
           progress: undefined,
         });
+
         // Close the dialog after saving
         handleClose();
       })
       .catch((error) => {
-        toast.error("Error occurred during the request. Please try again later.", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
+        if (error.response.status === 409) {
+          toast.error("User account already exists.", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+        }
+
         console.error("Error occurred during the request:", error);
       });
 
@@ -178,7 +184,7 @@ export default function CreateUserAccountDialog({
           <Grid container spacing={2}>
             <Grid item xs={12} md={6}>
               <TextField
-                id="firstname"
+                id="first_name"
                 label="First Name"
                 variant="outlined"
                 fullWidth
@@ -187,7 +193,7 @@ export default function CreateUserAccountDialog({
             </Grid>
             <Grid item xs={12} md={6}>
               <TextField
-                id="lastname"
+                id="last_name"
                 label="Last Name"
                 variant="outlined"
                 fullWidth
@@ -246,7 +252,7 @@ export default function CreateUserAccountDialog({
                   Confirm Password
                 </InputLabel>
                 <OutlinedInput
-                  id="confirm-password"
+                  // id="confirm-password"
                   type={showPassword ? "text" : "password"}
                   value={formData.confirmPassword}
                   error={!!passwordError}
