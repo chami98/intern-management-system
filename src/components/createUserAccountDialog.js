@@ -131,6 +131,16 @@ export default function CreateUserAccountDialog({
             draggable: true,
             progress: undefined,
           });
+        } else if (error.response.status === 400) {
+          toast.error("Please fill all the required fields.", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
         }
 
         console.error("Error occurred during the request:", error);
