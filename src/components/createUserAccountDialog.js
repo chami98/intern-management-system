@@ -118,7 +118,11 @@ export default function CreateUserAccountDialog({
         });
 
         // Close the dialog after saving
-        handleClose();
+
+        setTimeout(() => {
+          handleClose();
+        }, 1500);
+        
       })
       .catch((error) => {
         if (error.response.status === 409) {
