@@ -9,18 +9,24 @@ import Dialog from "@mui/material/Dialog";
 import RadioGroup from "@mui/material/RadioGroup";
 import Radio from "@mui/material/Radio";
 import FormControlLabel from "@mui/material/FormControlLabel";
-
-
-const options = [
-  "Chamikara Mendis",
-  "Sithum Mendis",
-  "Dione Mendis",
-  "Dilini Mendis",
-  "Chamara Mendis",
-  "Dilum Mendis",
-];
+import axios from "axios";
 
 function ConfirmationDialogRaw(props) {
+  const [interns, setInterns] = React.useState([]);
+  React.useEffect(() => {
+    axios.get("http://localhost:5000/api/interns").then((response) => {
+      const interns = response.data.map((intern) => {
+        return {
+          id: intern.id,
+          name: intern.first_name + " " + intern.last_name,
+        };
+      });
+
+      setInterns(interns);
+    });
+  }, []);
+  console.log(interns);
+
   const { onClose, value: valueProp, open, ...other } = props;
   const [value, setValue] = React.useState(valueProp);
   const radioGroupRef = React.useRef(null);
@@ -47,6 +53,8 @@ function ConfirmationDialogRaw(props) {
 
   const handleChange = (event) => {
     setValue(event.target.value);
+    console.log(event.target.value);
+
   };
 
   return (
@@ -56,8 +64,7 @@ function ConfirmationDialogRaw(props) {
           width: "80%",
           maxHeight: 435,
         },
-        zIndex: 1500
-        ,
+        zIndex: 1500,
       }}
       maxWidth="xs"
       TransitionProps={{ onEntering: handleEntering }}
@@ -73,12 +80,12 @@ function ConfirmationDialogRaw(props) {
           value={value}
           onChange={handleChange}
         >
-          {options.map((option) => (
+          {interns.map((intern) => (
             <FormControlLabel
-              value={option}
-              key={option}
+              value={intern.id}
+              key={intern.id}
               control={<Radio />}
-              label={option}
+              label={intern.name}
             />
           ))}
         </RadioGroup>
@@ -112,7 +119,7 @@ export default function SelectInternDialog({ open, setOpen }) {
   return (
     <Box sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
       <ConfirmationDialogRaw
-        id="ringtone-menu"
+        id="intern-menu"
         keepMounted
         open={open}
         onClose={handleClose}

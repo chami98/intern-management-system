@@ -2,6 +2,7 @@ import Layout from "./components/layout/layout";
 import AdminDashboardActions from "./components/adminDashboardActions";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import SignInSide from "./components/SignInSide";
 
 
 function App() {
@@ -10,6 +11,10 @@ function App() {
       <AdminDashboardActions />
       <ToastContainer position="top-right" autoClose={5000} hideProgressBar />
     </Layout>
+
+    // <>
+    //   <SignInSide />
+    // </>
   );
 }
 

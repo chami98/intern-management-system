@@ -1,6 +1,5 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
-
 import MiniDrawer from "./drawer";
 import CustomAppBar from "./app-bar";
 import DrawerHeader from "./drawer-header";
@@ -29,5 +28,7 @@ export default function Layout({ children, title }) {
         {children}
       </Box>
     </Box>
+
+   
   );
 }
