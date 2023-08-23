@@ -8,12 +8,11 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import CloseIcon from "@mui/icons-material/Close";
 import Slide from "@mui/material/Slide";
-import { useTheme } from "@mui/material/styles";
 import { Box, Grid, TextField, Autocomplete } from "@mui/material";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import ConfirmationDialog from "./ConfirmationDialogRaw";
+import SelectInternDialog from "./SelectInternDialog";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -114,39 +113,6 @@ export default function CreateInternProfile({
 
     console.log("Form data to be sent:", formDataToSend);
   };
-
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
-  };
-
-  const [evaluation1Score, setEvalution1Score] = useState("");
-  const [evaluation2Score, setEvalution2Score] = useState("");
-  const [evaluation1Feedback, setEvalution1Feedback] = useState("");
-  const [evaluation2Feedback, setEvalution2Feedback] = useState("");
-
-  const [feedback, setFeedback] = useState("");
-
-  const handleEvalution1ScoreChange = (event) => {
-    setEvalution1Score(event.target.value);
-  };
-
-  const handleEvalution2ScoreChange = (event) => {
-    setEvalution2Score(event.target.value);
-  };
-
-  const handleEvalution1FeedbackChange = (event) => {
-    setEvalution1Feedback(event.target.value);
-  };
-
-  const handleEvalution2FeedbackChange = (event) => {
-    setEvalution2Feedback(event.target.value);
-  };
-
-  const handleFeedbackChange = (event) => {
-    setFeedback(event.target.value);
-  };
-
-  const theme = useTheme();
 
   const universities = [
     { label: "University of Colombo" },
@@ -382,7 +348,7 @@ export default function CreateInternProfile({
           </Box>
         </Box>
       </Dialog>
-      <ConfirmationDialog
+      <SelectInternDialog
         open={openSelectIntern}
         setOpen={setOpenSelectIntern}
       />
