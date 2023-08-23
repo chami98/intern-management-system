@@ -13,6 +13,7 @@ import { Box, Grid, TextField, Autocomplete } from "@mui/material";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import ConfirmationDialog from "./ConfirmationDialogRaw";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -204,6 +205,12 @@ export default function CreateInternProfile({
     { label: "Chat GPT" },
   ];
 
+  const [openSelectIntern, setOpenSelectIntern] = React.useState(false);
+
+  const handleClickListItem = () => {
+    setOpenSelectIntern(true);
+  };
+
   return (
     <div>
       <Dialog
@@ -231,6 +238,14 @@ export default function CreateInternProfile({
           </Toolbar>
         </AppBar>
         <Box sx={{ margin: "60px", marginTop: "30px" }}>
+          <Button
+            variant="outlined"
+            color="primary"
+            onClick={handleClickListItem}
+            sx={{ mb: 2 }}
+          >
+            Select An Intern
+          </Button>
           <Typography variant="h6" gutterBottom>
             Personal Information:
           </Typography>
@@ -367,6 +382,10 @@ export default function CreateInternProfile({
           </Box>
         </Box>
       </Dialog>
+      <ConfirmationDialog
+        open={openSelectIntern}
+        setOpen={setOpenSelectIntern}
+      />
     </div>
   );
 }

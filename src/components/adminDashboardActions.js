@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Container, Grid, Typography } from "@mui/material";
+import { Box, Button, Container, Grid, Typography } from "@mui/material";
 import {
   PersonAdd,
   Mail,
@@ -164,6 +164,7 @@ const AdminDashboardActions = () => {
           </Grid>
         </Grid>
       </Container>
+
       <CreateInternProfile
         title={"Create Intern Profile"}
         handleClickOpen={handleInternAccountClickOpen}
