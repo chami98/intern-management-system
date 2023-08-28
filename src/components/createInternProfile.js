@@ -44,18 +44,17 @@ export default function CreateInternProfile({
   };
 
   const [formData, setFormData] = React.useState({
-    id: id,
     firstname: firstName,
     lastname: lastName,
     university: university,
     gpa: "",
     accomplishments: "",
-    mentor: mentor,
-    team: team,
-    interview_1_score: "",
-    interview_2_score: "",
-    evaluation_1_feedback: "",
-    evaluation_2_feedback: "",
+    mentor_id: 54,
+    assigned_team: team,
+    interview1_score: "",
+    interview2_score: "",
+    evaluation1_feedback: "",
+    evaluation2_feedback: "",
   });
 
   React.useEffect(() => {
@@ -106,18 +105,17 @@ export default function CreateInternProfile({
 
   const handleSave = () => {
     const formDataToSend = {
-      id: formData.id,
       firstname: formData.firstname,
       lastname: formData.lastname,
       university: university,
       gpa: formData.gpa,
       accomplishments: formData.accomplishments,
-      mentor: mentor,
-      team: team,
-      interview_1_score: formData.interview_1_score,
-      interview_2_score: formData.interview_2_score,
-      evaluation_1_feedback: formData.evaluation_1_feedback,
-      evaluation_2_feedback: formData.evaluation_2_feedback,
+      mentor_id: 54,
+      assigned_team: 3,
+      interview1_score: parseFloat(formData.interview_1_score),
+      interview2_score: parseFloat(formData.interview_2_score),
+      evaluation1_feedback: formData.evaluation_1_feedback,
+      evaluation2_feedback: formData.evaluation_2_feedback,
     };
 
     axios
