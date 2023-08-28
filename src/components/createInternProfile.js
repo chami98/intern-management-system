@@ -27,10 +27,26 @@ export default function CreateInternProfile({
   const [university, setUniversity] = useState("");
   const [mentor, setMentor] = useState("");
   const [team, setTeam] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [id, setId] = useState("");
+
+  const handleFirstName = (newInputValue) => {
+    setFirstName(newInputValue);
+  };
+
+  const handleLastName = (newInputValue) => {
+    setLastName(newInputValue);
+  };
+
+  const handleId = (newInputValue) => {
+    setId(newInputValue);
+  };
 
   const [formData, setFormData] = React.useState({
-    firstname: "",
-    lastname: "",
+    id: id,
+    firstname: firstName,
+    lastname: lastName,
     university: university,
     gpa: "",
     accomplishments: "",
@@ -42,6 +58,31 @@ export default function CreateInternProfile({
     evaluation_2_feedback: "",
   });
 
+  React.useEffect(() => {
+    const fetchInternData = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:5000/api/interns/${id}`
+        );
+        const intern = response.data;
+        handleFirstName(intern[0].first_name);
+        handleLastName(intern[0].last_name);
+      } catch (error) {
+        console.error("Error fetching intern data:", error);
+      }
+    };
+    fetchInternData();
+  }, [id]);
+
+  React.useEffect(() => {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      id: id,
+      firstname: firstName,
+      lastname: lastName,
+    }));
+    console.log(id);
+  }, [firstName]);
   const handleChange = (event) => {
     const { id, value } = event.target;
     setFormData((prevFormData) => ({
@@ -65,6 +106,7 @@ export default function CreateInternProfile({
 
   const handleSave = () => {
     const formDataToSend = {
+      id: formData.id,
       firstname: formData.firstname,
       lastname: formData.lastname,
       university: university,
@@ -79,7 +121,7 @@ export default function CreateInternProfile({
     };
 
     axios
-      .post("http://localhost:5000/api/interns", formDataToSend)
+      .post(`http://localhost:5000/api/interns/${id}`, formDataToSend)
       .then((response) => {
         console.log("Response from the server:", response.data);
 
@@ -222,7 +264,10 @@ export default function CreateInternProfile({
                 label="First Name"
                 variant="outlined"
                 fullWidth
-                onChange={handleChange}
+                value={firstName}
+                InputProps={{
+                  readOnly: true,
+                }}
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -231,7 +276,10 @@ export default function CreateInternProfile({
                 label="Last Name"
                 variant="outlined"
                 fullWidth
-                onChange={handleChange}
+                value={lastName}
+                InputProps={{
+                  readOnly: true,
+                }}
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -351,6 +399,7 @@ export default function CreateInternProfile({
       <SelectInternDialog
         open={openSelectIntern}
         setOpen={setOpenSelectIntern}
+        handleId={handleId}
       />
     </div>
   );

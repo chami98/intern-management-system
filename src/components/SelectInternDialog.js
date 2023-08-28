@@ -46,16 +46,19 @@ function ConfirmationDialogRaw(props) {
   const handleCancel = () => {
     onClose();
   };
+  
+  const handleChange = (event) => {
+    setValue(event.target.value);
+  };
 
   const handleOk = () => {
     onClose(value);
   };
 
-  const handleChange = (event) => {
-    setValue(event.target.value);
-    console.log(event.target.value);
-
-  };
+  React.useEffect(() => {
+    console.log(value);
+    props.handleId(value);
+  }, [value]);
 
   return (
     <Dialog
@@ -106,8 +109,12 @@ ConfirmationDialogRaw.propTypes = {
   value: PropTypes.string.isRequired,
 };
 
-export default function SelectInternDialog({ open, setOpen }) {
-  const [value, setValue] = React.useState("Chamikara Mendis");
+export default function SelectInternDialog({
+  open,
+  setOpen,
+  handleId
+}) {
+  const [value, setValue] = React.useState("");
 
   const handleClose = (newValue) => {
     setOpen(false);
@@ -124,6 +131,7 @@ export default function SelectInternDialog({ open, setOpen }) {
         open={open}
         onClose={handleClose}
         value={value}
+        handleId={handleId}
       />
     </Box>
   );
