@@ -30,6 +30,18 @@ export default function CreateInternProfile({
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [id, setId] = useState("");
+  const [mentors, setMentors] = React.useState([]);
+  const [selectedFileName, setSelectedFileName] = useState("");
+
+  // Function to handle file selection
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setSelectedFileName(file.name);
+    } else {
+      setSelectedFileName("");
+    }
+  };
 
   const handleFirstName = (newInputValue) => {
     setFirstName(newInputValue);
@@ -49,7 +61,7 @@ export default function CreateInternProfile({
     university: university,
     gpa: "",
     accomplishments: "",
-    mentor_id: 54,
+    mentor_id: mentor,
     assigned_team: team,
     interview1_score: "",
     interview2_score: "",
@@ -95,7 +107,8 @@ export default function CreateInternProfile({
   };
 
   const handleMentor = (event, newInputValue) => {
-    setMentor(newInputValue);
+    setMentor(newInputValue.id);
+    console.log(mentor);
   };
 
   const handleTeam = (event, newInputValue) => {
@@ -110,7 +123,7 @@ export default function CreateInternProfile({
       university: university,
       gpa: formData.gpa,
       accomplishments: formData.accomplishments,
-      mentor_id: 54,
+      mentor_id: mentor,
       assigned_team: 3,
       interview1_score: parseFloat(formData.interview_1_score),
       interview2_score: parseFloat(formData.interview_2_score),
@@ -184,15 +197,20 @@ export default function CreateInternProfile({
     { label: "University of Sri Jayewardenepura, Faculty of Graduate Studies" },
   ];
 
-  const mentors = [
-    { label: "Peshala Liyanage" },
-    { label: "Nishara Ramasinghe" },
-    { label: "Banura Perera" },
-    { label: "Afaz Deen" },
-    { label: "Yasanka Jayawardane" },
-    { label: "Kushan Hansika" },
-    { label: "Kushan Rathnayaka " },
-  ];
+  React.useEffect(() => {
+    axios
+      .get("http://localhost:5000/api/users?user=mentor")
+      .then((response) => {
+        const mentors = response.data.map((mentor) => {
+          return {
+            label: mentor.first_name + " " + mentor.last_name,
+            id: mentor.id,
+          };
+        });
+        setMentors(mentors);
+      });
+  }, []);
+  console.log(mentors);
 
   const teams = [
     { label: "BUS" },
@@ -311,6 +329,19 @@ export default function CreateInternProfile({
                 onChange={handleChange}
               />
             </Grid>
+            <Grid item xs={12} md={6}>
+              <Button variant="contained" component="label">
+                {selectedFileName
+                  ? `Resume: ${selectedFileName}`
+                  : "Upload Resume"}
+                <input
+                  type="file"
+                  hidden
+                  accept=".pdf, .docx"
+                  onChange={handleFileChange} // Call the function when a file is selected
+                />
+              </Button>
+            </Grid>
           </Grid>
           <Box sx={{ marginTop: "18px" }}>
             <Typography variant="h6" gutterBottom>
@@ -322,8 +353,9 @@ export default function CreateInternProfile({
                   disablePortal
                   id="mentor"
                   options={mentors}
+                  getOptionLabel={(option) => option.label} // Set the label for display
                   sx={{ width: "100%" }}
-                  onInputChange={handleMentor}
+                  onChange={handleMentor}
                   renderInput={(params) => (
                     <TextField {...params} label="Mentor" />
                   )}

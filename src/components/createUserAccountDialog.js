@@ -56,6 +56,7 @@ export default function CreateUserAccountDialog({
   // Log the input value when it changes
   const handleRoleChange = (event, newInputValue) => {
     setRole(newInputValue);
+    console.log(event);
   };
 
   const handleChange = (event) => {
@@ -171,7 +172,7 @@ export default function CreateUserAccountDialog({
     setPasswordError("");
     setRole("");
     setShowPassword(false);
-    
+
     parentHandleClose();
   };
 
