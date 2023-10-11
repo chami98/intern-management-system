@@ -31,16 +31,13 @@ export default function CreateInternProfile({
   const [lastName, setLastName] = useState("");
   const [id, setId] = useState("");
   const [mentors, setMentors] = React.useState([]);
-  const [selectedFileName, setSelectedFileName] = useState("");
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [uploadButtonLabel, setUploadButtonLabel] = useState("Select PDF");
 
-  // Function to handle file selection
   const handleFileChange = (event) => {
     const file = event.target.files[0];
-    if (file) {
-      setSelectedFileName(file.name);
-    } else {
-      setSelectedFileName("");
-    }
+    setSelectedFile(file);
+    setUploadButtonLabel(file ? file.name : "Select PDF");
   };
 
   const handleFirstName = (newInputValue) => {
@@ -129,6 +126,7 @@ export default function CreateInternProfile({
       interview2_score: parseFloat(formData.interview_2_score),
       evaluation1_feedback: formData.evaluation_1_feedback,
       evaluation2_feedback: formData.evaluation_2_feedback,
+      pdf_url: '', 
     };
 
     axios
@@ -235,6 +233,31 @@ export default function CreateInternProfile({
     setOpenSelectIntern(true);
   };
 
+  const handleFileUpload = async () => {
+    if (selectedFile) {
+      const formData = new FormData();
+      formData.append("file", selectedFile);
+
+      try {
+        const response = await axios.post(
+          "http://localhost:5000/api/upload",
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+
+        console.log("File uploaded successfully:", response.data.fileUrl);
+        // You can handle the response as needed, such as storing the file URL.
+      } catch (error) {
+        console.error("Error uploading file:", error);
+        // Handle the error, e.g., display an error message.
+      }
+    }
+  };
+
   return (
     <div>
       <Dialog
@@ -330,16 +353,24 @@ export default function CreateInternProfile({
               />
             </Grid>
             <Grid item xs={12} md={6}>
-              <Button variant="contained" component="label">
-                {selectedFileName
-                  ? `Resume: ${selectedFileName}`
-                  : "Upload Resume"}
-                <input
-                  type="file"
-                  hidden
-                  accept=".pdf, .docx"
-                  onChange={handleFileChange} // Call the function when a file is selected
-                />
+              <input
+                accept="application/pdf"
+                type="file"
+                id="file"
+                onChange={handleFileChange}
+                style={{ display: "none" }}
+              />
+              <label htmlFor="file">
+                <Button variant="outlined" color="primary" component="span">
+                {uploadButtonLabel}
+                </Button>
+              </label>
+              <Button
+                variant="outlined"
+                color="primary"
+                onClick={handleFileUpload}
+              >
+                Upload File
               </Button>
             </Grid>
           </Grid>
