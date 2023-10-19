@@ -14,7 +14,7 @@ import axios from "axios";
 function ConfirmationDialogRaw(props) {
   const [interns, setInterns] = React.useState([]);
   React.useEffect(() => {
-    axios.get("http://localhost:5000/api/interns").then((response) => {
+    axios.get("http://localhost:5000/api/users?user=intern").then((response) => {
       const interns = response.data.map((intern) => {
         return {
           id: intern.id,
