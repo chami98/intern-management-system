@@ -14,7 +14,19 @@ function App() {
 
     <Router>
       <Routes>
-        <Route path="/" element={<SignInSide />} />
+        <Route
+          path="/"
+          element={
+            <>
+              <SignInSide />
+              <ToastContainer
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar
+              />
+            </>
+          }
+        />
         <Route
           path="/admindashboard"
           element={

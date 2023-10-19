@@ -13,13 +13,18 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import backgroundImage from '../resources/interns.jpg'; 
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom';
+
 
 
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
+      <Link color="inherit" href="#">
         InternX
       </Link>{' '}
       {new Date().getFullYear()}
@@ -33,14 +38,39 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function SignInSide() {
-  const handleSubmit = (event) => {
+  
+  const navigate = useNavigate();
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    const email = event.currentTarget['email'].value;
+    const password = event.currentTarget['password'].value;
+  
+    try {
+      const response = await axios.post('http://localhost:5000/api/login', {
+        email,
+        password,
+      });
+  
+      const data = response.data;
+  
+      if (data.success) {
+        // Authentication successful, show a success toast
+        toast.success('Authentication successful', { position: 'top-right' });
+        navigate('/admindashboard');
+        // You can redirect the user or perform other actions here
+      } else {
+        // Authentication failed, show an error toast
+        toast.error('Authentication failed: ' + data.message, { position: 'top-right' });
+        // Display an error message to the user
+      }
+    } catch (error) {
+      console.error('Error during authentication:', error);
+      // Handle the error, e.g., show an error message to the user
+      toast.error('Error during authentication', { position: 'top-right' });
+    }
   };
+  
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -73,10 +103,10 @@ export default function SignInSide() {
             <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
               <LockOutlinedIcon />
             </Avatar>
-            <Typography component="h6" variant="h6">
+            <Typography component="h2" variant="h2">
               InternX
             </Typography>
-            <Typography component="h1" variant="h5">
+            <Typography component="h6" variant="h6">
               Sign in
             </Typography>
             <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
