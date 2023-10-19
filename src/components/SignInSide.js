@@ -64,7 +64,7 @@ export default function SignInSide() {
       }
     } catch (error) {
       console.error('Error during authentication:', error);
-      // Handle the error, e.g., show an error message to the user
+      // Handle the error, 
       toast.error('Error during authentication', { position: 'top-right' });
     }
   };
