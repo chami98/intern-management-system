@@ -1,20 +1,35 @@
+import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
 import Layout from "./components/layout/layout";
 import AdminDashboardActions from "./components/adminDashboardActions";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import SignInSide from "./components/SignInSide";
 
-
 function App() {
   return (
-    <Layout title="InternX">
-      <AdminDashboardActions />
-      <ToastContainer position="top-right" autoClose={5000} hideProgressBar />
-    </Layout>
+    // <Layout title="InternX">
+    //   <AdminDashboardActions />
+    //   <ToastContainer position="top-right" autoClose={5000} hideProgressBar />
+    // </Layout>
 
-    // <>
-    //   <SignInSide />
-    // </>
+    <Router>
+      <Routes>
+        <Route path="/" element={<SignInSide />} />
+        <Route
+          path="/admindashboard"
+          element={
+            <Layout title="InternX">
+              <AdminDashboardActions />
+              <ToastContainer
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar
+              />
+            </Layout>
+          }
+        />
+      </Routes>
+    </Router>
   );
 }
 

@@ -214,6 +214,7 @@ export default function CreateInternProfile({
     { label: "BUS" },
     { label: "Boligmappa" },
     { label: "Hex" },
+    { label: "Facilit" },
     { label: "Compello" },
     { label: "Devgrade" },
     { label: "Hatteland" },
@@ -225,6 +226,8 @@ export default function CreateInternProfile({
     { label: "Parkly" },
     { label: "Whatif" },
     { label: "Chat GPT" },
+    { label: "Youtello" },
+
   ];
 
   const [openSelectIntern, setOpenSelectIntern] = React.useState(false);
