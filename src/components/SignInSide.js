@@ -60,7 +60,6 @@ export default function SignInSide() {
       } else {
         // Authentication failed, show an error toast
         toast.error('Authentication failed: ' + data.message, { position: 'top-right' });
-        // Display an error message to the user
       }
     } catch (error) {
       console.error('Error during authentication:', error);
