@@ -7,11 +7,6 @@ import SignInSide from "./components/SignInSide";
 
 function App() {
   return (
-    // <Layout title="InternX">
-    //   <AdminDashboardActions />
-    //   <ToastContainer position="top-right" autoClose={5000} hideProgressBar />
-    // </Layout>
-
     <Router>
       <Routes>
         <Route
