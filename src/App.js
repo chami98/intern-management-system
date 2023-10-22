@@ -8,9 +8,93 @@ import MentorDashboard from "./components/mentorDashboard";
 import EvaluatorDashboard from "./components/evaluatorDashboard";
 import ManagementDashboard from "./components/managementDashboard";
 import InternDashboard from "./components/internDashboard";
+import PrivateRoute from "./components/PrivateRoute";
 
 function App() {
   return (
+    // <Router>
+    //   <Routes>
+    //     <Route
+    //       path="/"
+    //       element={
+    //         <>
+    //           <SignInSide />
+    //           <ToastContainer
+    //             position="top-right"
+    //             autoClose={5000}
+    //             hideProgressBar
+    //           />
+    //         </>
+    //       }
+    //     />
+    //     <Route
+    //       path="/admindashboard"
+    //       element={
+    //         <Layout title="InternX">
+    //           <AdminDashboardActions />
+    //           <ToastContainer
+    //             position="top-right"
+    //             autoClose={5000}
+    //             hideProgressBar
+    //           />
+    //         </Layout>
+    //       }
+    //     />
+    //     <Route
+    //       path="/mentordashboard"
+    //       element={
+    //         <Layout title="InternX">
+    //           <MentorDashboard />
+    //           <ToastContainer
+    //             position="top-right"
+    //             autoClose={5000}
+    //             hideProgressBar
+    //           />
+    //         </Layout>
+    //       }
+    //     />
+    //       <Route
+    //       path="/evaluatordashboard"
+    //       element={
+    //         <Layout title="InternX">
+    //           <EvaluatorDashboard />
+    //           <ToastContainer
+    //             position="top-right"
+    //             autoClose={5000}
+    //             hideProgressBar
+    //           />
+    //         </Layout>
+    //       }
+    //     />
+    //       <Route
+    //       path="/managementdashboard"
+    //       element={
+    //         <Layout title="InternX">
+    //           <ManagementDashboard />
+    //           <ToastContainer
+    //             position="top-right"
+    //             autoClose={5000}
+    //             hideProgressBar
+    //           />
+    //         </Layout>
+    //       }
+    //     />
+    //     <Route
+    //       path="/interndashboard"
+    //       element={
+    //         <Layout title="InternX">
+    //           <InternDashboard />
+    //           <ToastContainer
+    //             position="top-right"
+    //             autoClose={5000}
+    //             hideProgressBar
+    //           />
+    //         </Layout>
+    //       }
+    //     />
+    //   </Routes>
+    // </Router>
+
     <Router>
       <Routes>
         <Route
@@ -30,6 +114,7 @@ function App() {
           path="/admindashboard"
           element={
             <Layout title="InternX">
+              <PrivateRoute />
               <AdminDashboardActions />
               <ToastContainer
                 position="top-right"
@@ -43,6 +128,7 @@ function App() {
           path="/mentordashboard"
           element={
             <Layout title="InternX">
+              <PrivateRoute />
               <MentorDashboard />
               <ToastContainer
                 position="top-right"
@@ -52,10 +138,11 @@ function App() {
             </Layout>
           }
         />
-          <Route
+        <Route
           path="/evaluatordashboard"
           element={
             <Layout title="InternX">
+              <PrivateRoute />
               <EvaluatorDashboard />
               <ToastContainer
                 position="top-right"
@@ -65,10 +152,11 @@ function App() {
             </Layout>
           }
         />
-          <Route
+        <Route
           path="/managementdashboard"
           element={
             <Layout title="InternX">
+              <PrivateRoute />
               <ManagementDashboard />
               <ToastContainer
                 position="top-right"
@@ -82,6 +170,7 @@ function App() {
           path="/interndashboard"
           element={
             <Layout title="InternX">
+              <PrivateRoute />
               <InternDashboard />
               <ToastContainer
                 position="top-right"

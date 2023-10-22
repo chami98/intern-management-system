@@ -46,6 +46,15 @@ export default function SignInSide() {
     const email = event.currentTarget["email"].value;
     const password = event.currentTarget["password"].value;
 
+     // Check if email and password are empty
+     if (!email || !password) {
+      // Show a toast message indicating that the fields are required
+      toast.error("Please enter both email and password", {
+        position: "top-right",
+      });
+      return; // Stop further execution
+    }
+
     try {
       const response = await axios.post("http://localhost:5000/api/login", {
         email,
@@ -58,6 +67,10 @@ export default function SignInSide() {
         // Authentication successful, show a success toast
         toast.success("Authentication successful", { position: "top-right" });
         console.log(data.user.role_id);
+
+        //save token to local storage
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("expires_at", data.expiresAt);
 
         if (data.user.role_id === 1) {
           navigate("/admindashboard");

@@ -13,6 +13,8 @@ import ListItemText from '@mui/material/ListItemText';
 import DrawerHeader from './drawer-header';
 import constants from './constants.json'
 import { Group, Logout, ManageAccounts } from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom';
+
 
 const { drawerWidth } = constants;
 
@@ -57,6 +59,13 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
 export default function MiniDrawer({ open, handleDrawerClose }) {
   const theme = useTheme();
+  const navigate = useNavigate();
+
+  const handleLogOut = () => {
+    // Perform log out actions (e.g., clear the authentication token)
+    localStorage.removeItem('token'); // Clear the authentication token
+    navigate('/'); // Redirect to the login page
+  };
 
   return (
     <Drawer variant="permanent" open={open}>
@@ -95,6 +104,7 @@ export default function MiniDrawer({ open, handleDrawerClose }) {
         {['Log out'].map((text, index) => (
           <ListItem key={text} disablePadding sx={{ display: 'block' }}>
             <ListItemButton
+              onClick={handleLogOut} // Call the handleLogOut function on button click
               sx={{
                 minHeight: 48,
                 justifyContent: open ? 'initial' : 'center',
