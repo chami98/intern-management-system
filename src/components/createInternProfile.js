@@ -127,10 +127,10 @@ export default function CreateInternProfile({
       accomplishments: formData.accomplishments,
       mentor_id: mentor,
       assigned_team: team,
-      interview_score:22,
-      interview_feedback:'',
-      evaluation1_score: parseFloat(formData.interview_1_score),
-      evaluation2_score: parseFloat(formData.interview_2_score),
+      interview_score:parseFloat(formData.interview_score),
+      interview_feedback:formData.interview_feedback,
+      evaluation1_score: parseFloat(formData.evaluation1_score),
+      evaluation2_score: parseFloat(formData.evaluation2_score),
       evaluation1_feedback: formData.evaluation_1_feedback,
       evaluation2_feedback: formData.evaluation_2_feedback,
       cv_url: '', 
@@ -419,13 +419,13 @@ export default function CreateInternProfile({
             </Grid>
             <Box sx={{ marginTop: "18px" }}>
               <Typography variant="h6" gutterBottom>
-                Evolution Information:
+                Evaluation Information:
               </Typography>
               <Grid container spacing={2}>
                 <Grid item xs={12} md={6}>
                   <TextField
-                    id="interview_1_score"
-                    label="Interview Score I"
+                    id="evaluation1_score"
+                    label="Evaluation Score I"
                     variant="outlined"
                     fullWidth
                     onChange={handleChange}
@@ -434,7 +434,7 @@ export default function CreateInternProfile({
                 <Grid item xs={12} md={6}>
                   <TextField
                     id="evaluation_1_feedback"
-                    label={`Evolution  Feedback I`}
+                    label={`Evaluation Feedback I`}
                     variant="outlined"
                     multiline
                     onChange={handleChange}
@@ -445,8 +445,8 @@ export default function CreateInternProfile({
               <Grid container spacing={2}>
                 <Grid item xs={12} md={6}>
                   <TextField
-                    id="interview_2_score"
-                    label={`Evolution Score II`}
+                    id="evaluation2_score"
+                    label={`Evaluation Score II`}
                     variant="outlined"
                     onChange={handleChange}
                     fullWidth
@@ -456,12 +456,38 @@ export default function CreateInternProfile({
                 <Grid item xs={12} md={6}>
                   <TextField
                     id="evaluation_2_feedback"
-                    label={`Evolution  Feedback II`}
+                    label={`Evaluation Feedback II`}
                     variant="outlined"
                     multiline
                     onChange={handleChange}
                     fullWidth
                     margin="normal"
+                  />
+                </Grid>
+              </Grid>
+            </Box>
+            <Box sx={{ marginTop: "18px" }}>
+              <Typography variant="h6" gutterBottom>
+                Interview Information:
+              </Typography>
+              <Grid container spacing={2}>
+                <Grid item xs={12} md={6}>
+                  <TextField
+                    id="interview_score"
+                    label="Interview Score"
+                    variant="outlined"
+                    fullWidth
+                    onChange={handleChange}
+                  />
+                </Grid>
+                <Grid item xs={12} md={6}>
+                  <TextField
+                    id="interview_feedback"
+                    label={`Interview Feedback`}
+                    variant="outlined"
+                    multiline
+                    onChange={handleChange}
+                    fullWidth
                   />
                 </Grid>
               </Grid>
