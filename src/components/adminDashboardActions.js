@@ -14,6 +14,7 @@ import {
 import CreateUserAccountDialog from "./createUserAccountDialog";
 import CreateInternProfile from "./createInternProfile";
 import axios from "axios";
+import UpdateInternProfileStatusAccountDialog from "./updateInternProfileStatus";
 
 const buttonStyle = {
   display: "flex",
@@ -29,6 +30,7 @@ const iconStyle = {
 const AdminDashboardActions = () => {
   const [userAccountOpen, setUserAccountOpen] = React.useState(false);
   const [internAccountOpen, setInternAccountOpen] = React.useState(false);
+  const [updateInternProfileStatusOpen, setUpdateInternProfileStatusOpen] = React.useState(false);
 
   const handleUserAccountClickOpen = () => {
     setUserAccountOpen(true);
@@ -36,6 +38,14 @@ const AdminDashboardActions = () => {
 
   const handleUserAccountClose = () => {
     setUserAccountOpen(false);
+  };
+
+  const handleUpdateInternProfileStatusClickOpen = () => {
+    setUpdateInternProfileStatusOpen(true);
+  };
+
+  const handleUpdateInternProfileStatusClose = () => {
+    setUpdateInternProfileStatusOpen(false);
   };
 
   const handleInternAccountClickOpen = () => {
@@ -129,6 +139,7 @@ const AdminDashboardActions = () => {
           </Grid>
           <Grid item xs={12} md={4} sm={6}>
             <Button
+              onClick={handleUpdateInternProfileStatusClickOpen}
               variant="contained"
               color="primary"
               fullWidth
@@ -177,6 +188,12 @@ const AdminDashboardActions = () => {
         handleClickOpen={handleUserAccountClickOpen}
         handleClose={handleUserAccountClose}
         open={userAccountOpen}
+      />
+      <UpdateInternProfileStatusAccountDialog
+        title={"Update Intern Profile Status"}
+        handleClickOpen={handleUpdateInternProfileStatusClickOpen}
+        handleClose={handleUpdateInternProfileStatusClose}
+        open={updateInternProfileStatusOpen}
       />
     </>
   );
