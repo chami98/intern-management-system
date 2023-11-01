@@ -134,7 +134,7 @@ export default function CreateInternProfile({
       evaluation1_feedback: formData.evaluation_1_feedback,
       evaluation2_feedback: formData.evaluation_2_feedback,
       cv_url: '', 
-      project_details:'',
+      project_details:formData.project_details,
       status:'',
     };
 
@@ -388,7 +388,7 @@ export default function CreateInternProfile({
           </Grid>
           <Box sx={{ marginTop: "18px" }}>
             <Typography variant="h6" gutterBottom>
-              Project Details:
+              Project Information:
             </Typography>
             <Grid container spacing={2}>
               <Grid item xs={12} md={6}>
@@ -417,6 +417,18 @@ export default function CreateInternProfile({
                 />
               </Grid>
             </Grid>
+            <Grid container spacing={2}>
+                <Grid item xs={12} md={6}>
+                  <TextField
+                    id="project_details"
+                    label={`Project Details`}
+                    variant="outlined"
+                    onChange={handleChange}
+                    fullWidth
+                    margin="normal"
+                  />
+                </Grid>
+              </Grid>
             <Box sx={{ marginTop: "18px" }}>
               <Typography variant="h6" gutterBottom>
                 Evaluation Information:
