@@ -60,10 +60,15 @@ export default function CreateInternProfile({
     accomplishments: "",
     mentor_id: mentor,
     assigned_team: team,
-    interview1_score: "",
-    interview2_score: "",
+    interview_score: "",
+    interview_feedback:"",
+    evaluation1_score: "",
+    evaluation2_score: "",
     evaluation1_feedback: "",
     evaluation2_feedback: "",
+    project_details:'',
+    status:'',
+    cv_url:'',
   });
 
   React.useEffect(() => {
@@ -73,8 +78,8 @@ export default function CreateInternProfile({
           `http://localhost:5000/api/interns/${id}`
         );
         const intern = response.data;
-        handleFirstName(intern[0].first_name);
-        handleLastName(intern[0].last_name);
+        handleFirstName(intern.first_name);
+        handleLastName(intern.last_name);
       } catch (error) {
         console.error("Error fetching intern data:", error);
       }
@@ -121,12 +126,16 @@ export default function CreateInternProfile({
       gpa: formData.gpa,
       accomplishments: formData.accomplishments,
       mentor_id: mentor,
-      assigned_team: 3,
-      interview1_score: parseFloat(formData.interview_1_score),
-      interview2_score: parseFloat(formData.interview_2_score),
+      assigned_team: team,
+      interview_score:22,
+      interview_feedback:'',
+      evaluation1_score: parseFloat(formData.interview_1_score),
+      evaluation2_score: parseFloat(formData.interview_2_score),
       evaluation1_feedback: formData.evaluation_1_feedback,
       evaluation2_feedback: formData.evaluation_2_feedback,
-      pdf_url: '', 
+      cv_url: '', 
+      project_details:'',
+      status:'',
     };
 
     axios
