@@ -61,14 +61,14 @@ export default function CreateInternProfile({
     mentor_id: mentor,
     assigned_team: team,
     interview_score: "",
-    interview_feedback:"",
+    interview_feedback: "",
     evaluation1_score: "",
     evaluation2_score: "",
     evaluation1_feedback: "",
     evaluation2_feedback: "",
-    project_details:'',
-    status:'',
-    cv_url:'',
+    project_details: "",
+    status: "",
+    cv_url: "",
   });
 
   React.useEffect(() => {
@@ -127,15 +127,15 @@ export default function CreateInternProfile({
       accomplishments: formData.accomplishments,
       mentor_id: mentor,
       assigned_team: team,
-      interview_score:parseFloat(formData.interview_score),
-      interview_feedback:formData.interview_feedback,
+      interview_score: parseFloat(formData.interview_score),
+      interview_feedback: formData.interview_feedback,
       evaluation1_score: parseFloat(formData.evaluation1_score),
       evaluation2_score: parseFloat(formData.evaluation2_score),
       evaluation1_feedback: formData.evaluation_1_feedback,
       evaluation2_feedback: formData.evaluation_2_feedback,
-      cv_url: '', 
-      project_details:formData.project_details,
-      status:'',
+      cv_url: "",
+      project_details: formData.project_details,
+      status: "",
     };
 
     axios
@@ -236,7 +236,6 @@ export default function CreateInternProfile({
     { label: "Whatif" },
     { label: "Chat GPT" },
     { label: "Youtello" },
-
   ];
 
   const [openSelectIntern, setOpenSelectIntern] = React.useState(false);
@@ -249,6 +248,8 @@ export default function CreateInternProfile({
     if (selectedFile) {
       const formData = new FormData();
       formData.append("file", selectedFile);
+      
+      formData.append("userID", id);
 
       try {
         const response = await axios.post(
@@ -374,7 +375,7 @@ export default function CreateInternProfile({
               />
               <label htmlFor="file">
                 <Button variant="outlined" color="primary" component="span">
-                {uploadButtonLabel}
+                  {uploadButtonLabel}
                 </Button>
               </label>
               <Button
@@ -418,17 +419,17 @@ export default function CreateInternProfile({
               </Grid>
             </Grid>
             <Grid container spacing={2}>
-                <Grid item xs={12} md={6}>
-                  <TextField
-                    id="project_details"
-                    label={`Project Details`}
-                    variant="outlined"
-                    onChange={handleChange}
-                    fullWidth
-                    margin="normal"
-                  />
-                </Grid>
+              <Grid item xs={12} md={6}>
+                <TextField
+                  id="project_details"
+                  label={`Project Details`}
+                  variant="outlined"
+                  onChange={handleChange}
+                  fullWidth
+                  margin="normal"
+                />
               </Grid>
+            </Grid>
             <Box sx={{ marginTop: "18px" }}>
               <Typography variant="h6" gutterBottom>
                 Evaluation Information:
