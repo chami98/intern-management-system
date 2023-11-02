@@ -245,6 +245,28 @@ export default function CreateInternProfile({
   };
 
   const handleFileUpload = async () => {
+    if (!selectedFile) {
+      toast.error("Please select a file to upload!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        draggable: true,
+      });
+      return;
+    }
+
+    if (!id) {
+      toast.error("Please select an intern!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        draggable: true,
+      });
+      return;
+    }
+    
     if (selectedFile) {
       const formData = new FormData();
       formData.append("file", selectedFile);
@@ -263,10 +285,28 @@ export default function CreateInternProfile({
         );
 
         console.log("File uploaded successfully:", response.data.fileUrl);
-        // You can handle the response as needed, such as storing the file URL.
+        toast.success("File uploaded successfully!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
       } catch (error) {
         console.error("Error uploading file:", error);
-        // Handle the error, e.g., display an error message.
+        //add toast
+        toast.error(
+          "Error occurred during the request. Please try again later.",
+          {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+          }
+        );
       }
     }
   };
