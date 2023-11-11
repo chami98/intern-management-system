@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import AppBar from "@mui/material/AppBar";
@@ -27,20 +27,11 @@ import {
   TableRow,
   Paper,
 } from "@mui/material";
+import axios from "axios";
 
-function createData(name, university, GPA, accomplishments, protein) {
-  return { name, university, GPA, accomplishments, protein };
+function createData(name, university, gpa, accomplishments, status) {
+  return { name, university, gpa, accomplishments, status };
 }
-
-const data = [
-  { name: "Frozen yoghurt", university: 159, GPA: 6.0, accomplishments: 24, protein: 4.0 },
-  { name: "Ice cream sandwich", university: 237, GPA: 9.0, accomplishments: 37, protein: 4.3 },
-  { name: "Eclair", university: 262, GPA: 16.0, accomplishments: 24, protein: 6.0 },
-  { name: "Cupcake", university: 305, GPA: 3.7, accomplishments: 67, protein: 4.3 },
-  { name: "Gingerbread", university: 356, GPA: 16.0, accomplishments: 49, protein: 3.9 },
-];
-
-const rows = data.map(item => createData(item.name, item.university, item.GPA, item.accomplishments, item.protein));
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -52,11 +43,11 @@ export default function CreateUserAccountDialog({
   handleClickOpen,
   handleClose: parentHandleClose,
 }) {
-  const [selectedStatus, setSelectedStatus] = useState("");
+  const [selectedStatusMap, setSelectedStatusMap] = useState({});
   const [loading, setLoading] = React.useState(false);
 
   const handleSave = () => {
-    console.log("Selected Status:", selectedStatus);
+    console.log("Selected Status Map:", selectedStatusMap);
     handleClose();
   };
 
@@ -64,7 +55,60 @@ export default function CreateUserAccountDialog({
     parentHandleClose();
   };
 
+  const handleStatusChange = (rowName, selectedValue) => {
+    setSelectedStatusMap((prev) => ({
+      ...prev,
+      [rowName]: selectedValue,
+    }));
+
+    console.log("Selected Status Map:", selectedStatusMap);
+  };
+
+  const [data, setData] = useState([{}]);
+
+  const rows = data.map((item) =>
+    createData(
+      item.name,
+      item.university,
+      item.gpa,
+      item.accomplishments,
+      item.status
+    )
+  );
+
   const theme = useTheme();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("http://localhost:5000/api/interns");
+        const interns = response.data.map((item) => {
+          return {
+            name: item.first_name + " " + item.last_name,
+            university: item.university,
+            gpa: item.gpa,
+            accomplishments: item.accomplishments,
+            status: item.status,
+          };
+        });
+        console.log("interns", interns);
+  
+        // Initialize selectedStatusMap here
+        const initialStatusMap = {};
+        interns.forEach((row) => {
+          initialStatusMap[row.name] = row.status;
+        });
+        setSelectedStatusMap(initialStatusMap);
+  
+        setData(interns);
+      } catch (error) {
+        console.error("Error fetching data from the backend:", error);
+      }
+    };
+  
+    fetchData();
+  }, []);
+  
 
   return (
     <div>
@@ -99,7 +143,7 @@ export default function CreateUserAccountDialog({
                 <TableRow>
                   <TableCell>Name</TableCell>
                   <TableCell align="right">University</TableCell>
-                  <TableCell align="right">GPA</TableCell>
+                  <TableCell align="right">gpa</TableCell>
                   <TableCell align="right">Accomplishments</TableCell>
                   <TableCell align="right">Status</TableCell>
                 </TableRow>
@@ -108,13 +152,13 @@ export default function CreateUserAccountDialog({
                 {rows.map((row) => (
                   <TableRow
                     key={row.name}
-                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
                     <TableCell component="th" scope="row">
                       {row.name}
                     </TableCell>
                     <TableCell align="right">{row.university}</TableCell>
-                    <TableCell align="right">{row.GPA}</TableCell>
+                    <TableCell align="right">{row.gpa}</TableCell>
                     <TableCell align="right">{row.accomplishments}</TableCell>
                     <TableCell align="right">
                       <FormControl fullWidth variant="outlined">
@@ -124,13 +168,19 @@ export default function CreateUserAccountDialog({
                         <Select
                           labelId={`status-label-${row.name}`}
                           id={`status-${row.name}`}
-                          value={selectedStatus}
-                          onChange={(e) => setSelectedStatus(e.target.value)}
+                          value={selectedStatusMap[row.name] || ""}
+                          onChange={(e) =>
+                            handleStatusChange(row.name, e.target.value)
+                          }
                           label="Status"
                         >
-                          <MenuItem value="Pending">Pending</MenuItem>
-                          <MenuItem value="Approved">Approved</MenuItem>
-                          <MenuItem value="Rejected">Rejected</MenuItem>
+                          {Array.from(
+                            new Set(rows.map((row) => row.status))
+                          ).map((status) => (
+                            <MenuItem key={status} value={status}>
+                              {status}
+                            </MenuItem>
+                          ))}
                         </Select>
                       </FormControl>
                     </TableCell>
