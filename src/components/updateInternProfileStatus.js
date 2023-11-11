@@ -82,6 +82,7 @@ export default function CreateUserAccountDialog({
     const fetchData = async () => {
       try {
         const response = await axios.get("http://localhost:5000/api/interns");
+
         const interns = response.data.map((item) => {
           return {
             name: item.first_name + " " + item.last_name,
@@ -91,24 +92,34 @@ export default function CreateUserAccountDialog({
             status: item.status,
           };
         });
+
         console.log("interns", interns);
-  
+
         // Initialize selectedStatusMap here
         const initialStatusMap = {};
         interns.forEach((row) => {
           initialStatusMap[row.name] = row.status;
         });
         setSelectedStatusMap(initialStatusMap);
-  
+
         setData(interns);
       } catch (error) {
         console.error("Error fetching data from the backend:", error);
       }
     };
-  
+
     fetchData();
   }, []);
-  
+
+  const statusOptions = [
+    'Pending',
+    'Interview Scheduled',
+    'Interview Complete',
+    'Hired',
+    'Rejected',
+    'Internship Started',
+    'Internship Ended',
+  ];
 
   return (
     <div>
@@ -174,9 +185,7 @@ export default function CreateUserAccountDialog({
                           }
                           label="Status"
                         >
-                          {Array.from(
-                            new Set(rows.map((row) => row.status))
-                          ).map((status) => (
+                          {statusOptions.map((status) => (
                             <MenuItem key={status} value={status}>
                               {status}
                             </MenuItem>
