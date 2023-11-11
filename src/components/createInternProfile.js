@@ -12,6 +12,7 @@ import { Box, Grid, TextField, Autocomplete } from "@mui/material";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import CircularProgress from "@mui/material/CircularProgress";
 import SelectInternDialog from "./SelectInternDialog";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -33,6 +34,7 @@ export default function CreateInternProfile({
   const [mentors, setMentors] = React.useState([]);
   const [selectedFile, setSelectedFile] = useState(null);
   const [uploadButtonLabel, setUploadButtonLabel] = useState("Select PDF");
+  const [uploading, setUploading] = useState(false);
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -266,12 +268,13 @@ export default function CreateInternProfile({
       });
       return;
     }
-    
+
     if (selectedFile) {
       const formData = new FormData();
       formData.append("file", selectedFile);
-      
       formData.append("userID", id);
+
+      setUploading(true);
 
       try {
         const response = await axios.post(
@@ -307,6 +310,8 @@ export default function CreateInternProfile({
             draggable: true,
           }
         );
+      }finally {
+        setUploading(false); // Stop showing the loader
       }
     }
   };
@@ -406,25 +411,48 @@ export default function CreateInternProfile({
               />
             </Grid>
             <Grid item xs={12} md={6}>
-              <input
-                accept="application/pdf"
-                type="file"
-                id="file"
-                onChange={handleFileChange}
-                style={{ display: "none" }}
-              />
-              <label htmlFor="file">
-                <Button variant="outlined" color="primary" component="span">
-                  {uploadButtonLabel}
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <input
+                  accept="application/pdf"
+                  type="file"
+                  id="file"
+                  onChange={handleFileChange}
+                  style={{ display: "none" }}
+                />
+                <label htmlFor="file">
+                  <Button
+                    style={{
+                      cursor: "pointer",
+                      marginRight: "10px",
+                      padding: "10px 20px",
+                    }}
+                    variant="outlined"
+                    color="primary"
+                    component="span"
+                  >
+                   
+                      {uploadButtonLabel}
+                    
+                  </Button>
+                </label>
+                <Button
+                  style={{
+                    padding: "10px 20px",
+                    fontSize: "14px",
+                    borderRadius: "5px",
+                    transition: "background-color 0.3s, color 0.3s",
+                  }}
+                  variant="contained"
+                  color="primary"
+                  onClick={handleFileUpload}
+                >
+                  {uploading ? (
+                      <CircularProgress size={30} color="inherit" /> // Show loader while uploading
+                    ) : (
+                      "Upload File"
+                    )}
                 </Button>
-              </label>
-              <Button
-                variant="outlined"
-                color="primary"
-                onClick={handleFileUpload}
-              >
-                Upload File
-              </Button>
+              </div>
             </Grid>
           </Grid>
           <Box sx={{ marginTop: "18px" }}>

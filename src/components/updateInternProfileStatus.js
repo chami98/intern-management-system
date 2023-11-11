@@ -11,21 +11,36 @@ import Slide from "@mui/material/Slide";
 import { useTheme } from "@mui/material/styles";
 import {
   Box,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
   Grid,
   TextField,
-  InputAdornment,
-  InputLabel,
-  FormControl,
-  Autocomplete,
   Backdrop,
   CircularProgress,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
 } from "@mui/material";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import axios from "axios";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+
+function createData(name, university, GPA, accomplishments, protein) {
+  return { name, university, GPA, accomplishments, protein };
+}
+
+const data = [
+  { name: "Frozen yoghurt", university: 159, GPA: 6.0, accomplishments: 24, protein: 4.0 },
+  { name: "Ice cream sandwich", university: 237, GPA: 9.0, accomplishments: 37, protein: 4.3 },
+  { name: "Eclair", university: 262, GPA: 16.0, accomplishments: 24, protein: 6.0 },
+  { name: "Cupcake", university: 305, GPA: 3.7, accomplishments: 67, protein: 4.3 },
+  { name: "Gingerbread", university: 356, GPA: 16.0, accomplishments: 49, protein: 3.9 },
+];
+
+const rows = data.map(item => createData(item.name, item.university, item.GPA, item.accomplishments, item.protein));
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -37,10 +52,11 @@ export default function CreateUserAccountDialog({
   handleClickOpen,
   handleClose: parentHandleClose,
 }) {
- 
+  const [selectedStatus, setSelectedStatus] = useState("");
   const [loading, setLoading] = React.useState(false);
-  
+
   const handleSave = () => {
+    console.log("Selected Status:", selectedStatus);
     handleClose();
   };
 
@@ -48,9 +64,7 @@ export default function CreateUserAccountDialog({
     parentHandleClose();
   };
 
-
   const theme = useTheme();
-
 
   return (
     <div>
@@ -79,7 +93,52 @@ export default function CreateUserAccountDialog({
           </Toolbar>
         </AppBar>
         <Box sx={{ margin: "60px" }}>
-          
+          <TableContainer component={Paper}>
+            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  <TableCell>Name</TableCell>
+                  <TableCell align="right">University</TableCell>
+                  <TableCell align="right">GPA</TableCell>
+                  <TableCell align="right">Accomplishments</TableCell>
+                  <TableCell align="right">Status</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {rows.map((row) => (
+                  <TableRow
+                    key={row.name}
+                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                  >
+                    <TableCell component="th" scope="row">
+                      {row.name}
+                    </TableCell>
+                    <TableCell align="right">{row.university}</TableCell>
+                    <TableCell align="right">{row.GPA}</TableCell>
+                    <TableCell align="right">{row.accomplishments}</TableCell>
+                    <TableCell align="right">
+                      <FormControl fullWidth variant="outlined">
+                        <InputLabel id={`status-label-${row.name}`}>
+                          Status
+                        </InputLabel>
+                        <Select
+                          labelId={`status-label-${row.name}`}
+                          id={`status-${row.name}`}
+                          value={selectedStatus}
+                          onChange={(e) => setSelectedStatus(e.target.value)}
+                          label="Status"
+                        >
+                          <MenuItem value="Pending">Pending</MenuItem>
+                          <MenuItem value="Approved">Approved</MenuItem>
+                          <MenuItem value="Rejected">Rejected</MenuItem>
+                        </Select>
+                      </FormControl>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
         </Box>
       </Dialog>
       <Backdrop
