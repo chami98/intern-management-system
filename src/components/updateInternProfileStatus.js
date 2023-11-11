@@ -29,8 +29,8 @@ import {
 } from "@mui/material";
 import axios from "axios";
 
-function createData(name, university, gpa, accomplishments, status) {
-  return { name, university, gpa, accomplishments, status };
+function createData(id, name, university, gpa, accomplishments, status) {
+  return { id, name, university, gpa, accomplishments, status };
 }
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -55,19 +55,19 @@ export default function CreateUserAccountDialog({
     parentHandleClose();
   };
 
-  const handleStatusChange = (rowName, selectedValue) => {
+  const handleStatusChange = (internId, selectedValue) => {
     setSelectedStatusMap((prev) => ({
       ...prev,
-      [rowName]: selectedValue,
+      [internId]: selectedValue,
     }));
-
-    console.log("Selected Status Map:", selectedStatusMap);
+    console.log("Selected Status :", internId, selectedValue);
   };
 
   const [data, setData] = useState([{}]);
 
   const rows = data.map((item) =>
     createData(
+      item.id,
       item.name,
       item.university,
       item.gpa,
@@ -83,22 +83,21 @@ export default function CreateUserAccountDialog({
       try {
         const response = await axios.get("http://localhost:5000/api/interns");
 
-        const interns = response.data.map((item) => {
-          return {
-            name: item.first_name + " " + item.last_name,
-            university: item.university,
-            gpa: item.gpa,
-            accomplishments: item.accomplishments,
-            status: item.status,
-          };
-        });
+        const interns = response.data.map((item) => ({
+          id: item.id,
+          name: `${item.first_name} ${item.last_name}`,
+          university: item.university,
+          gpa: item.gpa,
+          accomplishments: item.accomplishments,
+          status: item.status,
+        }));
 
         console.log("interns", interns);
 
         // Initialize selectedStatusMap here
         const initialStatusMap = {};
         interns.forEach((row) => {
-          initialStatusMap[row.name] = row.status;
+          initialStatusMap[row.id] = row.status;
         });
         setSelectedStatusMap(initialStatusMap);
 
@@ -154,7 +153,7 @@ export default function CreateUserAccountDialog({
                 <TableRow>
                   <TableCell>Name</TableCell>
                   <TableCell align="right">University</TableCell>
-                  <TableCell align="right">gpa</TableCell>
+                  <TableCell align="right">GPA</TableCell>
                   <TableCell align="right">Accomplishments</TableCell>
                   <TableCell align="right">Status</TableCell>
                 </TableRow>
@@ -162,7 +161,7 @@ export default function CreateUserAccountDialog({
               <TableBody>
                 {rows.map((row) => (
                   <TableRow
-                    key={row.name}
+                    key={row.id}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
                     <TableCell component="th" scope="row">
@@ -173,15 +172,15 @@ export default function CreateUserAccountDialog({
                     <TableCell align="right">{row.accomplishments}</TableCell>
                     <TableCell align="right">
                       <FormControl fullWidth variant="outlined">
-                        <InputLabel id={`status-label-${row.name}`}>
+                        <InputLabel id={`status-label-${row.id}`}>
                           Status
                         </InputLabel>
                         <Select
-                          labelId={`status-label-${row.name}`}
-                          id={`status-${row.name}`}
-                          value={selectedStatusMap[row.name] || ""}
+                          labelId={`status-label-${row.id}`}
+                          id={`status-${row.id}`}
+                          value={selectedStatusMap[row.id] || ""}
                           onChange={(e) =>
-                            handleStatusChange(row.name, e.target.value)
+                            handleStatusChange(row.id, e.target.value)
                           }
                           label="Status"
                         >

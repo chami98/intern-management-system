@@ -365,6 +365,10 @@ export default function CreateInternProfile({
                 InputProps={{
                   readOnly: true,
                 }}
+                InputLabelProps={{
+                  shrink: true, 
+                }}
+                
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -376,6 +380,9 @@ export default function CreateInternProfile({
                 value={lastName}
                 InputProps={{
                   readOnly: true,
+                }}
+                InputLabelProps={{
+                  shrink: true, 
                 }}
               />
             </Grid>
