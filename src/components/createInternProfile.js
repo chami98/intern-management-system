@@ -129,6 +129,16 @@ export default function CreateInternProfile({
   };
 
   const handleSave = () => {
+    if (!firstName || !lastName || !university || !mentor || !evaluator) {
+      toast.error("Please fill all the required fields!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        draggable: true,
+      });
+      return;
+    }
     const formDataToSend = {
       firstname: formData.firstname,
       lastname: formData.lastname,
@@ -213,6 +223,7 @@ export default function CreateInternProfile({
     },
     { label: "University of Vocational Technology (UNIVOTEC)" },
     { label: "University of Sri Jayewardenepura, Faculty of Graduate Studies" },
+    { label: "Informatics Institute of Technology | IIT Campus" },
   ];
 
   React.useEffect(() => {
@@ -619,7 +630,7 @@ export default function CreateInternProfile({
                 </Grid>
               </Grid>
             </Box>
-          </Box>
+          </Box>  
         </Box>
       </Dialog>
       <SelectInternDialog
