@@ -28,6 +28,8 @@ import {
   Paper,
 } from "@mui/material";
 import axios from "axios";
+import { toast } from 'react-toastify';
+
 
 function createData(id, name, university, gpa, accomplishments, status) {
   return { id, name, university, gpa, accomplishments, status };
@@ -61,6 +63,17 @@ export default function CreateUserAccountDialog({
       [internId]: selectedValue,
     }));
     console.log("Selected Status :", internId, selectedValue);
+
+
+    axios.put(`http://localhost:5000/api/interns/${internId}`, { status: selectedValue })
+      .then((response) => {
+        console.log(response);
+        toast.success('Status updated successfully');
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error('Failed to update status');
+      });
   };
 
   const [data, setData] = useState([{}]);
