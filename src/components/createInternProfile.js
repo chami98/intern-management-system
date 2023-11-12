@@ -27,11 +27,13 @@ export default function CreateInternProfile({
 }) {
   const [university, setUniversity] = useState("");
   const [mentor, setMentor] = useState("");
+  const [evaluator, setEvaluator] = useState("");
   const [team, setTeam] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [id, setId] = useState("");
   const [mentors, setMentors] = React.useState([]);
+  const [evaluators, setEvaluators] = React.useState([]);
   const [selectedFile, setSelectedFile] = useState(null);
   const [uploadButtonLabel, setUploadButtonLabel] = useState("Select PDF");
   const [uploading, setUploading] = useState(false);
@@ -61,6 +63,7 @@ export default function CreateInternProfile({
     gpa: "",
     accomplishments: "",
     mentor_id: mentor,
+    evaluator_id: evaluator,
     assigned_team: team,
     interview_score: "",
     interview_feedback: "",
@@ -112,7 +115,12 @@ export default function CreateInternProfile({
 
   const handleMentor = (event, newInputValue) => {
     setMentor(newInputValue.id);
-    console.log(mentor);
+    console.log("mentor id ", newInputValue);
+  };
+
+  const handleEvaluator = (event, newInputValue) => {
+    setEvaluator(newInputValue.id);
+    console.log("evaluator id ", newInputValue);
   };
 
   const handleTeam = (event, newInputValue) => {
@@ -128,6 +136,7 @@ export default function CreateInternProfile({
       gpa: formData.gpa,
       accomplishments: formData.accomplishments,
       mentor_id: mentor,
+      evaluator_id: evaluator,
       assigned_team: team,
       interview_score: parseFloat(formData.interview_score),
       interview_feedback: formData.interview_feedback,
@@ -219,7 +228,22 @@ export default function CreateInternProfile({
         setMentors(mentors);
       });
   }, []);
-  console.log(mentors);
+  console.log("mentors", mentors);
+
+  React.useEffect(() => {
+    axios
+      .get("http://localhost:5000/api/users?user=evaluator")
+      .then((response) => {
+        const evaluators = response.data.map((evaluator) => {
+          return {
+            label: evaluator.first_name + " " + evaluator.last_name,
+            id: evaluator.id,
+          };
+        });
+        setEvaluators(evaluators);
+      });
+  }, []);
+  console.log("evaluators", evaluators);
 
   const teams = [
     { label: "BUS" },
@@ -310,7 +334,7 @@ export default function CreateInternProfile({
             draggable: true,
           }
         );
-      }finally {
+      } finally {
         setUploading(false); // Stop showing the loader
       }
     }
@@ -366,9 +390,8 @@ export default function CreateInternProfile({
                   readOnly: true,
                 }}
                 InputLabelProps={{
-                  shrink: true, 
+                  shrink: true,
                 }}
-                
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -382,7 +405,7 @@ export default function CreateInternProfile({
                   readOnly: true,
                 }}
                 InputLabelProps={{
-                  shrink: true, 
+                  shrink: true,
                 }}
               />
             </Grid>
@@ -437,9 +460,7 @@ export default function CreateInternProfile({
                     color="primary"
                     component="span"
                   >
-                   
-                      {uploadButtonLabel}
-                    
+                    {uploadButtonLabel}
                   </Button>
                 </label>
                 <Button
@@ -454,10 +475,10 @@ export default function CreateInternProfile({
                   onClick={handleFileUpload}
                 >
                   {uploading ? (
-                      <CircularProgress size={30} color="inherit" /> // Show loader while uploading
-                    ) : (
-                      "Upload File"
-                    )}
+                    <CircularProgress size={30} color="inherit" /> // Show loader while uploading
+                  ) : (
+                    "Upload File"
+                  )}
                 </Button>
               </div>
             </Grid>
@@ -481,19 +502,32 @@ export default function CreateInternProfile({
                 />
               </Grid>
               <Grid item xs={12} md={6}>
+              <Autocomplete
+                  disablePortal
+                  id="evaluator"
+                  options={evaluators}
+                  getOptionLabel={(option) => option.label} // Set the label for display
+                  sx={{ width: "100%" }}
+                  onChange={handleEvaluator}
+                  renderInput={(params) => (
+                    <TextField {...params} label="Evaluator" />
+                  )}
+                />
+              </Grid>
+            </Grid>
+            <Grid container spacing={2}>
+              <Grid item xs={12} md={6}>
                 <Autocomplete
                   disablePortal
                   id="team"
                   options={teams}
-                  sx={{ width: "100%" }}
+                  sx={{ width: "100%", marginTop: "16px" }}
                   onInputChange={handleTeam}
                   renderInput={(params) => (
                     <TextField {...params} label="Team" />
                   )}
                 />
               </Grid>
-            </Grid>
-            <Grid container spacing={2}>
               <Grid item xs={12} md={6}>
                 <TextField
                   id="project_details"
