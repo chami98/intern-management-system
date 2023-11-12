@@ -491,34 +491,6 @@ export default function CreateInternProfile({
               <Grid item xs={12} md={6}>
                 <Autocomplete
                   disablePortal
-                  id="mentor"
-                  options={mentors}
-                  getOptionLabel={(option) => option.label} // Set the label for display
-                  sx={{ width: "100%" }}
-                  onChange={handleMentor}
-                  renderInput={(params) => (
-                    <TextField {...params} label="Mentor" />
-                  )}
-                />
-              </Grid>
-              <Grid item xs={12} md={6}>
-              <Autocomplete
-                  disablePortal
-                  id="evaluator"
-                  options={evaluators}
-                  getOptionLabel={(option) => option.label} // Set the label for display
-                  sx={{ width: "100%" }}
-                  onChange={handleEvaluator}
-                  renderInput={(params) => (
-                    <TextField {...params} label="Evaluator" />
-                  )}
-                />
-              </Grid>
-            </Grid>
-            <Grid container spacing={2}>
-              <Grid item xs={12} md={6}>
-                <Autocomplete
-                  disablePortal
                   id="team"
                   options={teams}
                   sx={{ width: "100%", marginTop: "16px" }}
@@ -539,6 +511,39 @@ export default function CreateInternProfile({
                 />
               </Grid>
             </Grid>
+            <Box sx={{ marginTop: "18px" }}>
+              <Typography variant="h6" gutterBottom>
+                Mentor & Evaluator Information:
+              </Typography>
+              <Grid container spacing={2}>
+                <Grid item xs={12} md={6}>
+                  <Autocomplete
+                    disablePortal
+                    id="mentor"
+                    options={mentors}
+                    getOptionLabel={(option) => option.label} // Set the label for display
+                    sx={{ width: "100%" }}
+                    onChange={handleMentor}
+                    renderInput={(params) => (
+                      <TextField {...params} label="Mentor" />
+                    )}
+                  />
+                </Grid>
+                <Grid item xs={12} md={6}>
+                  <Autocomplete
+                    disablePortal
+                    id="evaluator"
+                    options={evaluators}
+                    getOptionLabel={(option) => option.label} // Set the label for display
+                    sx={{ width: "100%" }}
+                    onChange={handleEvaluator}
+                    renderInput={(params) => (
+                      <TextField {...params} label="Evaluator" />
+                    )}
+                  />
+                </Grid>
+              </Grid>
+            </Box>
             <Box sx={{ marginTop: "18px" }}>
               <Typography variant="h6" gutterBottom>
                 Evaluation Information:
