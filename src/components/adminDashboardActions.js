@@ -16,6 +16,7 @@ import CreateUserAccountDialog from "./createUserAccountDialog";
 import CreateInternProfile from "./createInternProfile";
 import axios from "axios";
 import UpdateInternProfileStatusAccountDialog from "./updateInternProfileStatus";
+import ManageUserRoles from "./manageUserRoles";
 
 const buttonStyle = {
   display: "flex",
@@ -32,6 +33,7 @@ const AdminDashboardActions = () => {
   const [userAccountOpen, setUserAccountOpen] = React.useState(false);
   const [internAccountOpen, setInternAccountOpen] = React.useState(false);
   const [updateInternProfileStatusOpen, setUpdateInternProfileStatusOpen] = React.useState(false);
+  const [manageUserRolesOpen, setManageUserRolesOpen] = React.useState(false);
 
   const handleUserAccountClickOpen = () => {
     setUserAccountOpen(true);
@@ -56,6 +58,15 @@ const AdminDashboardActions = () => {
   const handleInternAccountClose = () => {
     setInternAccountOpen(false);
   };
+
+  const handleManageUserRolesClickOpen = () => {
+    setManageUserRolesOpen(true);
+  }
+
+  const handleManageUserRolesClose = () => {
+    setManageUserRolesOpen(false);
+  }
+
 
   return (
     <>
@@ -159,6 +170,7 @@ const AdminDashboardActions = () => {
           </Grid>
           <Grid item xs={12} md={4} sm={6}>
             <Button
+              onClick={handleManageUserRolesClickOpen}
               variant="contained"
               color="primary"
               fullWidth
@@ -196,7 +208,15 @@ const AdminDashboardActions = () => {
         handleClose={handleUpdateInternProfileStatusClose}
         open={updateInternProfileStatusOpen}
       />
-    </>
+
+      <ManageUserRoles
+        title={"Manage User Roles"}
+        handleClickOpen={handleManageUserRolesClickOpen}
+        handleClose={handleManageUserRolesClose}
+        open={manageUserRolesOpen}
+      />
+        </>
+
   );
 };
 
