@@ -49,6 +49,7 @@ export default function ManageUserRoles({
 
   const handleSave = () => {
     console.log("Selected Role Map:", selectedRolesMap);
+    window.location.reload();
     handleClose();
   };
 
@@ -160,7 +161,7 @@ export default function ManageUserRoles({
                 <TableRow>
                   <TableCell>Name</TableCell>
                   <TableCell align="right">Email</TableCell>
-                  <TableCell align="right">Role ID</TableCell>
+                  {/* <TableCell align="right">Role ID</TableCell> */}
                   <TableCell align="right">Role</TableCell>
                 </TableRow>
               </TableHead>
@@ -175,7 +176,7 @@ export default function ManageUserRoles({
                       {console.log("row", row)}
                     </TableCell>
                     <TableCell align="right">{row.email}</TableCell>
-                    <TableCell align="right">{row.role_id}</TableCell>
+                    {/* <TableCell align="right">{row.role_id}</TableCell> */}
                     <TableCell align="right">
                       <FormControl fullWidth variant="outlined">
                         <InputLabel id={`role-label-${row.id}`}>Role</InputLabel>

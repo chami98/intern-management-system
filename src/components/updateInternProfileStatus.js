@@ -51,6 +51,7 @@ export default function CreateUserAccountDialog({
   const handleSave = () => {
     console.log("Selected Status Map:", selectedStatusMap);
     handleClose();
+    window.location.reload();
   };
 
   const handleClose = () => {

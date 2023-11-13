@@ -166,7 +166,7 @@ export default function CreateInternProfile({
 
         toast.success("Intern account created successfully!", {
           position: "top-right",
-          autoClose: 5000,
+          autoClose: 3000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
@@ -174,6 +174,7 @@ export default function CreateInternProfile({
           progress: undefined,
         });
         // Close the dialog after saving
+        window.location.reload();
         handleClose();
       })
       .catch((error) => {
@@ -181,7 +182,7 @@ export default function CreateInternProfile({
           "Error occurred during the request. Please try again later.",
           {
             position: "top-right",
-            autoClose: 5000,
+            autoClose: 3000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,

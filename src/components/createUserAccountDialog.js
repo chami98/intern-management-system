@@ -114,7 +114,7 @@ export default function CreateUserAccountDialog({
 
         toast.success("User account created successfully!", {
           position: "top-right",
-          autoClose: 5000,
+          autoClose: 2800,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
@@ -128,13 +128,14 @@ export default function CreateUserAccountDialog({
 
         setTimeout(() => {
           handleClose();
-        }, 1500);
+          window.location.reload();
+        }, 1000);
       })
       .catch((error) => {
         if (error.response.status === 409) {
           toast.error("User account already exists.", {
             position: "top-right",
-            autoClose: 5000,
+            autoClose: 2800,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,
