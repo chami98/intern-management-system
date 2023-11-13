@@ -11,6 +11,7 @@ import {
   School,
   ManageAccounts,
 } from "@mui/icons-material";
+import AutorenewIcon from '@mui/icons-material/Autorenew';
 import CreateUserAccountDialog from "./createUserAccountDialog";
 import CreateInternProfile from "./createInternProfile";
 import axios from "axios";
@@ -151,7 +152,7 @@ const AdminDashboardActions = () => {
                   transform: "scale(1.07)",
                 },
               }}
-              startIcon={<ManageAccounts style={iconStyle} />}
+              startIcon={<AutorenewIcon style={iconStyle} />}
             >
               Update intern profile status
             </Button>
@@ -171,7 +172,7 @@ const AdminDashboardActions = () => {
               }}
               startIcon={<AssignmentInd style={iconStyle} />}
             >
-              Assign Evaluators and Mentors
+              Manage User Roles
             </Button>
           </Grid>
         </Grid>
