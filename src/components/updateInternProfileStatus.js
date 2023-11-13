@@ -68,11 +68,15 @@ export default function CreateUserAccountDialog({
     axios.put(`http://localhost:5000/api/interns/${internId}`, { status: selectedValue })
       .then((response) => {
         console.log(response);
-        toast.success('Status updated successfully');
+        toast.success('Status updated successfully', {
+          autoClose: 2800, 
+        });
       })
       .catch((error) => {
         console.log(error);
-        toast.error('Failed to update status');
+        toast.error('Failed to update status', {
+          autoClose: 2800, 
+        });
       });
   };
 
