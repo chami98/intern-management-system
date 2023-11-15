@@ -11,12 +11,13 @@ import {
   School,
   ManageAccounts,
 } from "@mui/icons-material";
-import AutorenewIcon from '@mui/icons-material/Autorenew';
+import AutorenewIcon from "@mui/icons-material/Autorenew";
 import CreateUserAccountDialog from "./createUserAccountDialog";
 import CreateInternProfile from "./createInternProfile";
 import axios from "axios";
 import UpdateInternProfileStatusAccountDialog from "./updateInternProfileStatus";
 import ManageUserRoles from "./manageUserRoles";
+import InviteNewUsers from "./inviteNewUsers";
 
 const buttonStyle = {
   display: "flex",
@@ -32,8 +33,10 @@ const iconStyle = {
 const AdminDashboardActions = () => {
   const [userAccountOpen, setUserAccountOpen] = React.useState(false);
   const [internAccountOpen, setInternAccountOpen] = React.useState(false);
-  const [updateInternProfileStatusOpen, setUpdateInternProfileStatusOpen] = React.useState(false);
+  const [updateInternProfileStatusOpen, setUpdateInternProfileStatusOpen] =
+    React.useState(false);
   const [manageUserRolesOpen, setManageUserRolesOpen] = React.useState(false);
+  const [inviteNewUsersOpen, setInviteNewUsersOpen] = React.useState(false);
 
   const handleUserAccountClickOpen = () => {
     setUserAccountOpen(true);
@@ -61,12 +64,19 @@ const AdminDashboardActions = () => {
 
   const handleManageUserRolesClickOpen = () => {
     setManageUserRolesOpen(true);
-  }
+  };
 
   const handleManageUserRolesClose = () => {
     setManageUserRolesOpen(false);
+  };
+
+  const handleInviteNewUsersClickOpen = () => {
+    setInviteNewUsersOpen(true);
   }
 
+  const handleInviteNewUsersClose = () => {
+    setInviteNewUsersOpen(false);
+  }
 
   return (
     <>
@@ -96,6 +106,7 @@ const AdminDashboardActions = () => {
           </Grid>
           <Grid item xs={12} md={4} sm={6}>
             <Button
+              onClick={handleInviteNewUsersClickOpen}
               variant="contained"
               color="primary"
               fullWidth
@@ -215,8 +226,14 @@ const AdminDashboardActions = () => {
         handleClose={handleManageUserRolesClose}
         open={manageUserRolesOpen}
       />
-        </>
 
+      <InviteNewUsers
+        title={"Invite New Users"}
+        handleClickOpen={handleInviteNewUsersClickOpen}
+        handleClose={handleInviteNewUsersClose}
+        open={inviteNewUsersOpen}
+      />
+    </>
   );
 };
 
