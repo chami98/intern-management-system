@@ -13,16 +13,9 @@ import {
   Box,
   Grid,
   TextField,
-  InputAdornment,
-  InputLabel,
-  FormControl,
-  Autocomplete,
   Backdrop,
   CircularProgress,
 } from "@mui/material";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import OutlinedInput from "@mui/material/OutlinedInput";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -37,17 +30,32 @@ export default function InviteNewUsers({
   handleClickOpen,
   handleClose: parentHandleClose,
 }) {
-
   const [loading, setLoading] = React.useState(false);
-
+  const [formData, setFormData] = React.useState({
+    name: "",
+    email: "",
+  });
 
   const handleChange = (event) => {
     const { id, value } = event.target;
-
+    setFormData((prevData) => ({ ...prevData, [id]: value }));
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
+    setLoading(true);
+    try {
+      // Send a POST request with the form data
+      await axios.post("http://localhost:5000/api/invite", formData);
 
+      // Handle success, e.g., show a success message
+      toast.success("Invitation sent successfully!");
+    } catch (error) {
+      // Handle errors, e.g., show an error message
+      toast.error("Error sending invitation. Please try again.");
+    } finally {
+      setLoading(false);
+      handleClose();
+    }
   };
 
   const handleClose = () => {
@@ -78,7 +86,7 @@ export default function InviteNewUsers({
               {title}
             </Typography>
             <Button autoFocus color="inherit" onClick={handleSave}>
-              save
+              Save
             </Button>
           </Toolbar>
         </AppBar>
@@ -86,7 +94,7 @@ export default function InviteNewUsers({
           <Grid container spacing={2}>
             <Grid item xs={12} md={6}>
               <TextField
-                id="Name"
+                id="name"
                 label="Name"
                 variant="outlined"
                 fullWidth
