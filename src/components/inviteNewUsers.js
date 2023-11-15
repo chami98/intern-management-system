@@ -41,13 +41,19 @@ export default function InviteNewUsers({
     setFormData((prevData) => ({ ...prevData, [id]: value }));
   };
 
-  const handleSave = async () => {
+  const handleSend = async () => {
+    if (!formData.name || !formData.email) {
+      // If either name or email is empty, show an error message
+      toast.error("Please enter both name and email before saving.");
+      return;
+    }
     setLoading(true);
     try {
       // Send a POST request with the form data
       await axios.post("http://localhost:5000/api/invite", formData);
 
       // Handle success, e.g., show a success message
+      window.location.reload();
       toast.success("Invitation sent successfully!");
     } catch (error) {
       // Handle errors, e.g., show an error message
@@ -85,8 +91,8 @@ export default function InviteNewUsers({
             <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
               {title}
             </Typography>
-            <Button autoFocus color="inherit" onClick={handleSave}>
-              Save
+            <Button autoFocus color="inherit" onClick={handleSend}>
+              SEND INVITATION
             </Button>
           </Toolbar>
         </AppBar>
@@ -112,14 +118,15 @@ export default function InviteNewUsers({
             </Grid>
           </Grid>
         </Box>
+        {/* Loading animation */}
+        <Backdrop
+          sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={loading}
+        >
+          <CircularProgress color="inherit" />
+        </Backdrop>
       </Dialog>
-      <Backdrop
-        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={loading}
-        onClick={handleClose}
-      >
-        <CircularProgress color="inherit" />
-      </Backdrop>
     </div>
   );
 }
+
