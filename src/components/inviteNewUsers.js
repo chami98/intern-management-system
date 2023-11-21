@@ -64,6 +64,13 @@ export default function InviteNewUsers({
     }
   };
 
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault(); // prevent the default behavior of the Enter key
+      handleSend();
+    }
+  };
+
   const handleClose = () => {
     parentHandleClose();
   };
@@ -105,6 +112,7 @@ export default function InviteNewUsers({
                 variant="outlined"
                 fullWidth
                 onChange={handleChange}
+                onKeyPress={handleKeyPress}
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -114,6 +122,7 @@ export default function InviteNewUsers({
                 variant="outlined"
                 fullWidth
                 onChange={handleChange}
+                onKeyPress={handleKeyPress}
               />
             </Grid>
           </Grid>
