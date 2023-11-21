@@ -128,6 +128,24 @@ export default function CreateUserAccountDialog({
     fetchData();
   }, []);
 
+  useEffect(() => {
+    const handleKeyPress = (event) => {
+      // Check if the pressed key is the Enter key
+      if (event.key === "Enter") {
+        // Call the handleSave function
+        handleSave();
+      }
+    };
+
+    // Add event listener for keypress
+    window.addEventListener("keypress", handleKeyPress);
+
+    // Cleanup: remove the event listener when the component unmounts
+    return () => {
+      window.removeEventListener("keypress", handleKeyPress);
+    };
+  }, [handleSave]);
+
   const statusOptions = [
     'Pending',
     'Interview Scheduled',
