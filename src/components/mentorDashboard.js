@@ -19,6 +19,7 @@ import UpdateInternProfileStatusAccountDialog from "./updateInternProfileStatus"
 import ManageUserRoles from "./manageUserRoles";
 import InviteNewUsers from "./inviteNewUsers";
 import EvaluationForms from "./evaluationForms";
+import ViewInternProfiles from "./viewInternProfiles";
 
 const buttonStyle = {
   display: "flex",
@@ -32,14 +33,15 @@ const iconStyle = {
 };
 
 function MentorDashboard() {
-    const [userAccountOpen, setUserAccountOpen] = React.useState(false);
+  const [userAccountOpen, setUserAccountOpen] = React.useState(false);
   const [internAccountOpen, setInternAccountOpen] = React.useState(false);
   const [updateInternProfileStatusOpen, setUpdateInternProfileStatusOpen] =
     React.useState(false);
   const [manageUserRolesOpen, setManageUserRolesOpen] = React.useState(false);
   const [inviteNewUsersOpen, setInviteNewUsersOpen] = React.useState(false);
-  const[viewInternProfilesOpen, setViewInternProfilesOpen] = React.useState(false);
-  const [evaluationFormsOpen, setEvaluationFormsOpen] = React.useState(false);  
+  const [viewInternProfilesOpen, setViewInternProfilesOpen] =
+    React.useState(false);
+  const [evaluationFormsOpen, setEvaluationFormsOpen] = React.useState(false);
 
   const handleEvaluationFormOpen = () => {
     setEvaluationFormsOpen(true);
@@ -57,10 +59,9 @@ function MentorDashboard() {
     setViewInternProfilesOpen(false);
   };
 
-
-    return (
-        <>
-        <Container maxWidth="sm">
+  return (
+    <>
+      <Container maxWidth="sm">
         <Typography variant="h3" align="center" gutterBottom>
           Mentor Dashboard
         </Typography>
@@ -79,7 +80,7 @@ function MentorDashboard() {
                   transform: "scale(1.07)",
                 },
               }}
-                startIcon={<PostAdd style={iconStyle} />}
+              startIcon={<PostAdd style={iconStyle} />}
             >
               Evaluation Forms
             </Button>
@@ -105,15 +106,22 @@ function MentorDashboard() {
           </Grid>
         </Grid>
       </Container>
-      
+
       <EvaluationForms
         title={"Evaluation Forms"}
         handleClickOpen={handleEvaluationFormOpen}
         handleClose={handleEvaluationFormClose}
         open={evaluationFormsOpen}
       />
-      </>
-    );
+
+      <ViewInternProfiles
+        title={"Intern Profiles"}
+        handleClickOpen={handleViewInternProfilesOpen}
+        handleClose={handleViewInternProfilesClose}
+        open={viewInternProfilesOpen}
+      />
+    </>
+  );
 }
 
 export default MentorDashboard;
