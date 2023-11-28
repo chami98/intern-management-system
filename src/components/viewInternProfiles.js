@@ -38,7 +38,7 @@ function createData(
   gpa,
   accomplishments,
   assigned_team,
-  status
+  cv_url
 ) {
   return {
     id,
@@ -48,7 +48,7 @@ function createData(
     gpa,
     accomplishments,
     assigned_team,
-    status,
+    cv_url,
   };
 }
 
@@ -111,7 +111,7 @@ export default function CreateUserAccountDialog({
       item.gpa,
       item.accomplishments,
       item.assigned_team,
-      item.status
+      item.cv_url
     )
   );
 
@@ -129,8 +129,8 @@ export default function CreateUserAccountDialog({
           university: item.university,
           gpa: item.gpa,
           accomplishments: item.accomplishments,
-          status: item.status,
           assigned_team: item.assigned_team,
+          cv_url: item.cv_url,
         }));
 
         console.log("interns", interns);
@@ -216,7 +216,7 @@ export default function CreateUserAccountDialog({
                   <TableCell align="right">GPA</TableCell>
                   <TableCell align="right">Accomplishments</TableCell>
                   <TableCell align="right">Team</TableCell>
-                  <TableCell align="right">Status</TableCell>
+                  <TableCell align="right">Resume</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -234,26 +234,16 @@ export default function CreateUserAccountDialog({
                     <TableCell align="right">{row.accomplishments}</TableCell>
                     <TableCell align="right">{row.assigned_team}</TableCell>
                     <TableCell align="right">
-                      <FormControl fullWidth variant="outlined">
-                        <InputLabel id={`status-label-${row.id}`}>
-                          Status
-                        </InputLabel>
-                        <Select
-                          labelId={`status-label-${row.id}`}
-                          id={`status-${row.id}`}
-                          value={selectedStatusMap[row.id] || ""}
-                          onChange={(e) =>
-                            handleStatusChange(row.id, e.target.value)
-                          }
-                          label="Status"
+                        <Button
+                            size="medium"
+                            variant="outlined"
+                            color="primary"
+                            href={row.cv_url}
+                            target="_blank"
+                            style={{ whiteSpace: 'nowrap' }}
                         >
-                          {statusOptions.map((status) => (
-                            <MenuItem key={status} value={status}>
-                              {status}
-                            </MenuItem>
-                          ))}
-                        </Select>
-                      </FormControl>
+                            View Resume
+                        </Button>
                     </TableCell>
                   </TableRow>
                 ))}
