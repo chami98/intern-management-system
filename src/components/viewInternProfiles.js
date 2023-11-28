@@ -26,7 +26,13 @@ import {
   TableHead,
   TableRow,
   Paper,
+  Avatar,
+  AvatarGroup,
+  Chip,
+  Tooltip
 } from "@mui/material";
+import FaceIcon from '@mui/icons-material/Face';
+import ArrowCircleDownOutlinedIcon from '@mui/icons-material/ArrowCircleDownOutlined';
 import axios from "axios";
 import { toast } from "react-toastify";
 
@@ -38,7 +44,7 @@ function createData(
   gpa,
   accomplishments,
   assigned_team,
-  status
+  cv_url
 ) {
   return {
     id,
@@ -48,7 +54,7 @@ function createData(
     gpa,
     accomplishments,
     assigned_team,
-    status,
+    cv_url,
   };
 }
 
@@ -111,7 +117,7 @@ export default function CreateUserAccountDialog({
       item.gpa,
       item.accomplishments,
       item.assigned_team,
-      item.status
+      item.cv_url
     )
   );
 
@@ -129,8 +135,8 @@ export default function CreateUserAccountDialog({
           university: item.university,
           gpa: item.gpa,
           accomplishments: item.accomplishments,
-          status: item.status,
           assigned_team: item.assigned_team,
+          cv_url: item.cv_url,
         }));
 
         console.log("interns", interns);
@@ -205,61 +211,69 @@ export default function CreateUserAccountDialog({
             </Button>
           </Toolbar>
         </AppBar>
-        <Box sx={{ margin: "60px" }}>
-          <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 650 }} aria-label="simple table">
-              <TableHead>
-                <TableRow>
-                  <TableCell>Name</TableCell>
-                  <TableCell>Email</TableCell>
-                  <TableCell align="right">University</TableCell>
-                  <TableCell align="right">GPA</TableCell>
-                  <TableCell align="right">Accomplishments</TableCell>
-                  <TableCell align="right">Team</TableCell>
-                  <TableCell align="right">Status</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {rows.map((row) => (
-                  <TableRow
-                    key={row.id}
-                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                  >
-                    <TableCell component="th" scope="row">
-                      {row.name}
-                    </TableCell>
-                    <TableCell align="right">{row.email}</TableCell>
-                    <TableCell align="right">{row.university}</TableCell>
-                    <TableCell align="right">{row.gpa}</TableCell>
-                    <TableCell align="right">{row.accomplishments}</TableCell>
-                    <TableCell align="right">{row.assigned_team}</TableCell>
-                    <TableCell align="right">
-                      <FormControl fullWidth variant="outlined">
-                        <InputLabel id={`status-label-${row.id}`}>
-                          Status
-                        </InputLabel>
-                        <Select
-                          labelId={`status-label-${row.id}`}
-                          id={`status-${row.id}`}
-                          value={selectedStatusMap[row.id] || ""}
-                          onChange={(e) =>
-                            handleStatusChange(row.id, e.target.value)
-                          }
-                          label="Status"
-                        >
-                          {statusOptions.map((status) => (
-                            <MenuItem key={status} value={status}>
-                              {status}
-                            </MenuItem>
-                          ))}
-                        </Select>
-                      </FormControl>
-                    </TableCell>
+        <Box
+          sx={{ marginLeft: "60px", marginRight: "60px", marginTop: "20px" }}
+        >
+          <AvatarGroup total={data.length}>
+            {rows.map((row) => (
+              <Avatar alt={row.name} src="/static/images/avatar/1.jpg" />
+            ))}
+          </AvatarGroup>
+          <Box sx={{ marginTop: "20px" }}>
+            <TableContainer component={Paper}>
+              <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Name</TableCell>
+                    <TableCell>Email</TableCell>
+                    <TableCell align="right">University</TableCell>
+                    <TableCell align="right">GPA</TableCell>
+                    <TableCell align="right">Accomplishments</TableCell>
+                    <TableCell align="right">Team</TableCell>
+                    <TableCell align="right">Resume</TableCell>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
+                </TableHead>
+                <TableBody>
+                  {rows.map((row) => (
+                    <TableRow
+                      key={row.id}
+                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                    >
+                      <TableCell component="th" scope="row">
+                        {row.name}
+                      </TableCell>
+                      <TableCell align="right">{row.email}</TableCell>
+                      <TableCell align="right">{row.university}</TableCell>
+                      <TableCell align="right">{row.gpa}</TableCell>
+                      <TableCell align="right">{row.accomplishments}</TableCell>
+                      <TableCell align="right">{row.assigned_team}</TableCell>
+                      <TableCell align="right">
+                      <Tooltip title={`${row.name} Resume`}>
+                        <Chip
+                          icon={<ArrowCircleDownOutlinedIcon />}
+                          component="a"
+                          label="View Resume"
+                          variant="outlined"
+                          href={row.cv_url}
+                          clickable
+                        /></Tooltip>
+                        {/* <Button
+                        size="medium"
+                        variant="outlined"
+                        color="primary"
+                        href={row.cv_url}
+                        target="_blank"
+                        style={{ whiteSpace: "nowrap" }}
+                      >
+                        View Resume
+                      </Button> */}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </Box>
         </Box>
       </Dialog>
       <Backdrop
