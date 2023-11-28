@@ -18,6 +18,7 @@ import axios from "axios";
 import UpdateInternProfileStatusAccountDialog from "./updateInternProfileStatus";
 import ManageUserRoles from "./manageUserRoles";
 import InviteNewUsers from "./inviteNewUsers";
+import EvaluationForms from "./evaluationForms";
 
 const buttonStyle = {
   display: "flex",
@@ -37,47 +38,28 @@ function MentorDashboard() {
     React.useState(false);
   const [manageUserRolesOpen, setManageUserRolesOpen] = React.useState(false);
   const [inviteNewUsersOpen, setInviteNewUsersOpen] = React.useState(false);
+  const[viewInternProfilesOpen, setViewInternProfilesOpen] = React.useState(false);
+  const [evaluationFormsOpen, setEvaluationFormsOpen] = React.useState(false);  
 
-  const handleUserAccountClickOpen = () => {
-    setUserAccountOpen(true);
+  const handleEvaluationFormOpen = () => {
+    setEvaluationFormsOpen(true);
   };
 
-  const handleUserAccountClose = () => {
-    setUserAccountOpen(false);
+  const handleEvaluationFormClose = () => {
+    setEvaluationFormsOpen(false);
   };
 
-  const handleUpdateInternProfileStatusClickOpen = () => {
-    setUpdateInternProfileStatusOpen(true);
+  const handleViewInternProfilesOpen = () => {
+    setViewInternProfilesOpen(true);
   };
 
-  const handleUpdateInternProfileStatusClose = () => {
-    setUpdateInternProfileStatusOpen(false);
+  const handleViewInternProfilesClose = () => {
+    setViewInternProfilesOpen(false);
   };
 
-  const handleInternAccountClickOpen = () => {
-    setInternAccountOpen(true);
-  };
 
-  const handleInternAccountClose = () => {
-    setInternAccountOpen(false);
-  };
-
-  const handleManageUserRolesClickOpen = () => {
-    setManageUserRolesOpen(true);
-  };
-
-  const handleManageUserRolesClose = () => {
-    setManageUserRolesOpen(false);
-  };
-
-  const handleInviteNewUsersClickOpen = () => {
-    setInviteNewUsersOpen(true);
-  }
-
-  const handleInviteNewUsersClose = () => {
-    setInviteNewUsersOpen(false);
-  }
     return (
+        <>
         <Container maxWidth="sm">
         <Typography variant="h3" align="center" gutterBottom>
           Mentor Dashboard
@@ -85,7 +67,7 @@ function MentorDashboard() {
         <Grid container spacing={6}>
           <Grid item xs={12} md={6} sm={6}>
             <Button
-              onClick={handleUpdateInternProfileStatusClickOpen}
+              onClick={handleEvaluationFormOpen}
               variant="contained"
               color="primary"
               fullWidth
@@ -104,7 +86,7 @@ function MentorDashboard() {
           </Grid>
           <Grid item xs={12} md={6} sm={6}>
             <Button
-              onClick={handleManageUserRolesClickOpen}
+              onClick={handleViewInternProfilesOpen}
               variant="contained"
               color="primary"
               fullWidth
@@ -123,6 +105,14 @@ function MentorDashboard() {
           </Grid>
         </Grid>
       </Container>
+      
+      <EvaluationForms
+        title={"Evaluation Forms"}
+        handleClickOpen={handleEvaluationFormOpen}
+        handleClose={handleEvaluationFormClose}
+        open={evaluationFormsOpen}
+      />
+      </>
     );
 }
 
