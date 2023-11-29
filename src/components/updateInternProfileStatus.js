@@ -26,10 +26,10 @@ import {
   TableHead,
   TableRow,
   Paper,
+  Tooltip
 } from "@mui/material";
 import axios from "axios";
-import { toast } from 'react-toastify';
-
+import { toast } from "react-toastify";
 
 function createData(id, name, university, gpa, accomplishments, status) {
   return { id, name, university, gpa, accomplishments, status };
@@ -65,18 +65,20 @@ export default function CreateUserAccountDialog({
     }));
     console.log("Selected Status :", internId, selectedValue);
 
-
-    axios.put(`http://localhost:5000/api/interns/${internId}`, { status: selectedValue })
+    axios
+      .put(`http://localhost:5000/api/interns/${internId}`, {
+        status: selectedValue,
+      })
       .then((response) => {
         console.log(response);
-        toast.success('Status updated successfully', {
-          autoClose: 2800, 
+        toast.success("Status updated successfully", {
+          autoClose: 2800,
         });
       })
       .catch((error) => {
         console.log(error);
-        toast.error('Failed to update status', {
-          autoClose: 2800, 
+        toast.error("Failed to update status", {
+          autoClose: 2800,
         });
       });
   };
@@ -147,13 +149,13 @@ export default function CreateUserAccountDialog({
   }, [handleSave]);
 
   const statusOptions = [
-    'Pending',
-    'Interview Scheduled',
-    'Interview Complete',
-    'Hired',
-    'Rejected',
-    'Internship Started',
-    'Internship Ended',
+    "Pending",
+    "Interview Scheduled",
+    "Interview Complete",
+    "Hired",
+    "Rejected",
+    "Internship Started",
+    "Internship Ended",
   ];
 
   return (
@@ -207,26 +209,28 @@ export default function CreateUserAccountDialog({
                     <TableCell align="right">{row.gpa}</TableCell>
                     <TableCell align="right">{row.accomplishments}</TableCell>
                     <TableCell align="right">
-                      <FormControl fullWidth variant="outlined">
-                        <InputLabel id={`status-label-${row.id}`}>
-                          Status
-                        </InputLabel>
-                        <Select
-                          labelId={`status-label-${row.id}`}
-                          id={`status-${row.id}`}
-                          value={selectedStatusMap[row.id] || ""}
-                          onChange={(e) =>
-                            handleStatusChange(row.id, e.target.value)
-                          }
-                          label="Status"
-                        >
-                          {statusOptions.map((status) => (
-                            <MenuItem key={status} value={status}>
-                              {status}
-                            </MenuItem>
-                          ))}
-                        </Select>
-                      </FormControl>
+                      <Tooltip title={`Change Status of ${row.name}`} placement="top-end">
+                        <FormControl fullWidth variant="outlined">
+                          <InputLabel id={`status-label-${row.id}`}>
+                            Status
+                          </InputLabel>
+                          <Select
+                            labelId={`status-label-${row.id}`}
+                            id={`status-${row.id}`}
+                            value={selectedStatusMap[row.id] || ""}
+                            onChange={(e) =>
+                              handleStatusChange(row.id, e.target.value)
+                            }
+                            label="Status"
+                          >
+                            {statusOptions.map((status) => (
+                              <MenuItem key={status} value={status}>
+                                {status}
+                              </MenuItem>
+                            ))}
+                          </Select>
+                        </FormControl>
+                      </Tooltip>
                     </TableCell>
                   </TableRow>
                 ))}
