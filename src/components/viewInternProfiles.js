@@ -257,16 +257,6 @@ export default function CreateUserAccountDialog({
                           href={row.cv_url}
                           clickable
                         /></Tooltip>
-                        {/* <Button
-                        size="medium"
-                        variant="outlined"
-                        color="primary"
-                        href={row.cv_url}
-                        target="_blank"
-                        style={{ whiteSpace: "nowrap" }}
-                      >
-                        View Resume
-                      </Button> */}
                       </TableCell>
                     </TableRow>
                   ))}
