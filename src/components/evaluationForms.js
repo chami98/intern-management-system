@@ -67,6 +67,7 @@ export default function CreateUserAccountDialog({
 }) {
   const [selectedStatusMap, setSelectedStatusMap] = useState({});
   const [loading, setLoading] = React.useState(false);
+  const [selectedRow, setSelectedRow] = useState(null); // Added state to track the selected row
 
   const handleSave = () => {
     console.log("Selected Status Map:", selectedStatusMap);
@@ -256,14 +257,17 @@ export default function CreateUserAccountDialog({
                 <TableBody>
                   {rows.map((row) => (
                     <TableRow
-                    onClick={() => {
-                      // Handle click event for the table cell content
-                      console.log("Clicked on:", row.name , row.id);
-                    }}
+                      onClick={() => {
+                        // Handle click event for the table cell content
+                        setSelectedRow(row.id); // Update the selectedRow state
+                      }}
                       key={row.id}
                       sx={{
                         "&:last-child td, &:last-child th": { border: 0 },
-                        "&:hover": { backgroundColor: "#f0f0f0" , cursor: 'pointer'}, // Add hover effect here
+                        "&:hover": {
+                          backgroundColor: "#f0f0f0",
+                          cursor: "pointer",
+                        }, // Add hover effect here
                       }}
                     >
                       <TableCell component="th" scope="row">
@@ -287,6 +291,7 @@ export default function CreateUserAccountDialog({
       >
         <CircularProgress color="inherit" />
       </Backdrop>
+      
     </div>
   );
 }
