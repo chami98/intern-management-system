@@ -24,11 +24,12 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function EvaluationFormDialog({
+export default function EvaluationForm({
   title,
   open,
   handleClickOpen,
   handleClose: parentHandleClose,
+  id
 }) {
   const [loading, setLoading] = React.useState(false);
   const [formData, setFormData] = React.useState({
@@ -99,7 +100,7 @@ export default function EvaluationFormDialog({
               {title}
             </Typography>
             <Button autoFocus color="inherit" onClick={handleSend}>
-              SEND INVITATION
+              SAVE
             </Button>
           </Toolbar>
         </AppBar>

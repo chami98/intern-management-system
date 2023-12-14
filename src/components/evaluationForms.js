@@ -32,6 +32,7 @@ import {
 import ArrowCircleDownOutlinedIcon from "@mui/icons-material/ArrowCircleDownOutlined";
 import axios from "axios";
 import { toast } from "react-toastify";
+import EvaluationForm from "./evaluationForm";
 
 function createData(
   id,
@@ -67,8 +68,19 @@ export default function CreateUserAccountDialog({
 }) {
   const [selectedStatusMap, setSelectedStatusMap] = useState({});
   const [loading, setLoading] = React.useState(false);
-  const [selectedRow, setSelectedRow] = useState(null); // Added state to track the selected row
+  const [selectedRow, setSelectedRow] = useState({
+    id: "",
+    name: "",
+  }); // Added state to track the selected row
+  const [evaluationFormsOpen, setEvaluationFormsOpen] = React.useState(false);
 
+  const handleEvaluationFormOpen = () => {
+    setEvaluationFormsOpen(true);
+  };
+
+  const handleEvaluationFormClose = () => {
+    setEvaluationFormsOpen(false);
+  };
   const handleSave = () => {
     console.log("Selected Status Map:", selectedStatusMap);
     handleClose();
@@ -258,8 +270,8 @@ export default function CreateUserAccountDialog({
                   {rows.map((row) => (
                     <TableRow
                       onClick={() => {
-                        // Handle click event for the table cell content
-                        setSelectedRow(row.id); // Update the selectedRow state
+                        setEvaluationFormsOpen(true);
+                        setSelectedRow({ id: row.id, name: row.name }); // Update the selectedRow state
                       }}
                       key={row.id}
                       sx={{
@@ -291,7 +303,13 @@ export default function CreateUserAccountDialog({
       >
         <CircularProgress color="inherit" />
       </Backdrop>
-      
+      <EvaluationForm
+        title={`Evaluation Form for ${selectedRow.name}`}
+        id={selectedRow.id}
+        handleClickOpen={handleEvaluationFormOpen}
+        handleClose={handleEvaluationFormClose}
+        open={evaluationFormsOpen}
+      />
     </div>
   );
 }
