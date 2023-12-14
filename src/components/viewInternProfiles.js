@@ -29,10 +29,11 @@ import {
   Avatar,
   AvatarGroup,
   Chip,
-  Tooltip
+  Tooltip,
+  Stack,
 } from "@mui/material";
-import FaceIcon from '@mui/icons-material/Face';
-import ArrowCircleDownOutlinedIcon from '@mui/icons-material/ArrowCircleDownOutlined';
+import FaceIcon from "@mui/icons-material/Face";
+import ArrowCircleDownOutlinedIcon from "@mui/icons-material/ArrowCircleDownOutlined";
 import axios from "axios";
 import { toast } from "react-toastify";
 
@@ -185,6 +186,40 @@ export default function CreateUserAccountDialog({
     "Internship Ended",
   ];
 
+  function stringToColor(string) {
+    let hash = 0;
+    let i;
+
+    /* eslint-disable no-bitwise */
+    for (i = 0; i < string.length; i += 1) {
+      hash = string.charCodeAt(i) + ((hash << 5) - hash);
+    }
+
+    let color = "#";
+
+    for (i = 0; i < 3; i += 1) {
+      const value = (hash >> (i * 8)) & 0xff;
+      color += `00${value.toString(16)}`.slice(-2);
+    }
+    /* eslint-enable no-bitwise */
+
+    return color;
+  }
+
+  function stringAvatar(name) {
+    if (!name) {
+      return null; 
+    }
+  
+    return {
+      sx: {
+        bgcolor: stringToColor(name),
+      },
+      children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
+    };
+  }
+  
+
   return (
     <div>
       <Dialog
@@ -214,11 +249,19 @@ export default function CreateUserAccountDialog({
         <Box
           sx={{ marginLeft: "60px", marginRight: "60px", marginTop: "20px" }}
         >
-          <AvatarGroup total={data.length}>
+          {/* <AvatarGroup total={data.length}>
             {rows.map((row) => (
               <Avatar alt={row.name} src="/static/images/avatar/1.jpg" />
             ))}
-          </AvatarGroup>
+          </AvatarGroup> */}
+          {data.length > 0 && (
+            <AvatarGroup total={data.length}>
+              {rows.map((row) => (
+                <Avatar key={row.id} {...stringAvatar(row.name)} />
+              ))}
+            </AvatarGroup>
+          )}
+
           <Box sx={{ marginTop: "20px" }}>
             <TableContainer component={Paper}>
               <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -248,25 +291,16 @@ export default function CreateUserAccountDialog({
                       <TableCell align="right">{row.accomplishments}</TableCell>
                       <TableCell align="right">{row.assigned_team}</TableCell>
                       <TableCell align="right">
-                      <Tooltip title={`${row.name} Resume`}>
-                        <Chip
-                          icon={<ArrowCircleDownOutlinedIcon />}
-                          component="a"
-                          label="View Resume"
-                          variant="outlined"
-                          href={row.cv_url}
-                          clickable
-                        /></Tooltip>
-                        {/* <Button
-                        size="medium"
-                        variant="outlined"
-                        color="primary"
-                        href={row.cv_url}
-                        target="_blank"
-                        style={{ whiteSpace: "nowrap" }}
-                      >
-                        View Resume
-                      </Button> */}
+                        <Tooltip title={`${row.name} Resume`}>
+                          <Chip
+                            icon={<ArrowCircleDownOutlinedIcon />}
+                            component="a"
+                            label="View Resume"
+                            variant="outlined"
+                            href={row.cv_url}
+                            clickable
+                          />
+                        </Tooltip>
                       </TableCell>
                     </TableRow>
                   ))}
