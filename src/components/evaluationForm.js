@@ -15,6 +15,7 @@ import {
   TextField,
   Backdrop,
   CircularProgress,
+  Autocomplete,
 } from "@mui/material";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -29,7 +30,7 @@ export default function EvaluationForm({
   open,
   handleClickOpen,
   handleClose: parentHandleClose,
-  id
+  id,
 }) {
   const [loading, setLoading] = React.useState(false);
   const [formData, setFormData] = React.useState({
@@ -66,7 +67,7 @@ export default function EvaluationForm({
   };
 
   const handleKeyPress = (event) => {
-    if (event.key === 'Enter') {
+    if (event.key === "Enter") {
       event.preventDefault(); // prevent the default behavior of the Enter key
       handleSend();
     }
@@ -104,29 +105,249 @@ export default function EvaluationForm({
             </Button>
           </Toolbar>
         </AppBar>
-        <Box sx={{ margin: "60px" }}>
+        <Box sx={{ margin: "60px", marginTop: "30px" }}>
+          <Typography
+            variant="h6"
+            gutterBottom
+            style={{ marginBottom: "10px", fontSize: "17px" }}
+          >
+            Technical Competence:
+          </Typography>
           <Grid container spacing={2}>
             <Grid item xs={12} md={6}>
-              <TextField
-                id="name"
-                label="Name"
-                variant="outlined"
-                fullWidth
-                onChange={handleChange}
-                onKeyPress={handleKeyPress}
+              <Autocomplete
+                id="coding_skills"
+                options={[
+                  "Insufficient",
+                  "Basic",
+                  "Proficient",
+                  "Advanced",
+                  "Expert",
+                ]}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Coding Skills"
+                    onChange={handleChange}
+                    onKeyPress={handleKeyPress}
+                  />
+                )}
               />
             </Grid>
             <Grid item xs={12} md={6}>
-              <TextField
-                id="email"
-                label="Email"
-                variant="outlined"
-                fullWidth
-                onChange={handleChange}
-                onKeyPress={handleKeyPress}
+              <Autocomplete
+                id="problem_solving"
+                options={[
+                  "Needs Improvement",
+                  "Satisfactory",
+                  "Good",
+                  "Excellent",
+                ]}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Problem Solving"
+                    onChange={handleChange}
+                    onKeyPress={handleKeyPress}
+                  />
+                )}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <Autocomplete
+                id="algorithmic_understanding:"
+                options={["Limited", "Adequate", "Strong", "Exceptional"]}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Algorithmic Understanding:"
+                    onChange={handleChange}
+                    onKeyPress={handleKeyPress}
+                  />
+                )}
               />
             </Grid>
           </Grid>
+          <Box sx={{ marginTop: "18px" }}>
+            <Typography
+              variant="h6"
+              gutterBottom
+              style={{ marginBottom: "10px", fontSize: "17px" }}
+            >
+              Project Contribution:
+            </Typography>
+            <Grid container spacing={2}>
+              <Grid item xs={12} md={6}>
+                <Autocomplete
+                  id="meeting_deadlines"
+                  options={[
+                    "Often Delays",
+                    "Occasionally Delays",
+                    "Meets Expectations",
+                    "Often Exceeds Expectations",
+                  ]}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Meeting Deadlines"
+                      onChange={handleChange}
+                      onKeyPress={handleKeyPress}
+                    />
+                  )}
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <Autocomplete
+                  id="quality_of_code"
+                  options={[
+                    "Below Average",
+                    "Average",
+                    "Above Average",
+                    "Outstanding",
+                  ]}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Quality of Code"
+                      onChange={handleChange}
+                      onKeyPress={handleKeyPress}
+                    />
+                  )}
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <Autocomplete
+                  id="innovative_solutions"
+                  options={[
+                    "Rarely",
+                    "Occasionally",
+                    "Frequently",
+                    "Consistently",
+                  ]}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Innovative Solutions"
+                      onChange={handleChange}
+                      onKeyPress={handleKeyPress}
+                    />
+                  )}
+                />
+              </Grid>
+            </Grid>
+          </Box>
+          <Box sx={{ marginTop: "18px" }}>
+            <Typography
+              variant="h6"
+              gutterBottom
+              style={{ marginBottom: "10px", fontSize: "17px" }}
+            >
+              Communication and Collaboration:
+            </Typography>
+            <Grid container spacing={2}>
+              <Grid item xs={12} md={6}>
+                <Autocomplete
+                  id="team_ollaboration:"
+                  options={[
+                    "Limited Contribution",
+                    "Collaborates Effectively",
+                    "Actively Participates",
+                    "Strong Collaborator",
+                  ]}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Team Collaboration"
+                      onChange={handleChange}
+                      onKeyPress={handleKeyPress}
+                    />
+                  )}
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <Autocomplete
+                  id="documentation_skills"
+                  options={[
+                    "Needs Improvement",
+                    "Satisfactory",
+                    "Good",
+                    "Excellent",
+                  ]}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Documentation Skills"
+                      onChange={handleChange}
+                      onKeyPress={handleKeyPress}
+                    />
+                  )}
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <Autocomplete
+                  id="communication_clarity"
+                  options={["Unclear", "Adequate", "Clear", "Very Clear"]}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Communication Clarity"
+                      onChange={handleChange}
+                      onKeyPress={handleKeyPress}
+                    />
+                  )}
+                />
+              </Grid>
+            </Grid>
+          </Box>
+          <Box sx={{ marginTop: "18px" }}>
+            <Typography
+              variant="h6"
+              gutterBottom
+              style={{ marginBottom: "10px", fontSize: "17px" }}
+            >
+              Learning and Adaptability:
+            </Typography>
+            <Grid container spacing={2}>
+              <Grid item xs={12} md={6}>
+                <Autocomplete
+                  id="quick_grasping:"
+                  options={[
+                    "Slow Learner",
+                    "Average Learner",
+                    "Fast Learner",
+                    "Exceptional Learner",
+                  ]}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Quick Grasping"
+                      onChange={handleChange}
+                      onKeyPress={handleKeyPress}
+                    />
+                  )}
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <Autocomplete
+                  id="adaptability_to_changes"
+                  options={[
+                    "Resistant",
+                    "Acceptable",
+                    "Highly Adaptable",
+                    "Embraces Change",
+                  ]}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Adaptability to Changes"
+                      onChange={handleChange}
+                      onKeyPress={handleKeyPress}
+                    />
+                  )}
+                />
+              </Grid>
+            </Grid>
+          </Box>
         </Box>
         {/* Loading animation */}
         <Backdrop
@@ -139,4 +360,3 @@ export default function EvaluationForm({
     </div>
   );
 }
-
