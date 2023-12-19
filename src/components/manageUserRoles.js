@@ -44,46 +44,58 @@ export default function ManageUserRoles({
   handleClickOpen,
   handleClose: parentHandleClose,
 }) {
+  // State for managing the selected roles map
   const [selectedRolesMap, setSelectedRolesMap] = useState({});
+
+  // State for managing the loading state
   const [loading, setLoading] = React.useState(false);
 
+  // Handler for saving the changes
   const handleSave = () => {
     console.log("Selected Role Map:", selectedRolesMap);
-    window.location.reload();
+    window.location.reload(); // Reload the page to reflect the changes
     handleClose();
   };
 
+  // Handler for closing the dialog
   const handleClose = () => {
-    parentHandleClose();
+    parentHandleClose(); // Call the parent's handleClose function
   };
 
+  // Handler for changing the role of a user
   const handleRoleChange = (id, selectedValue) => {
+    // Update the selected roles map with the new role
     setSelectedRolesMap((prev) => ({
       ...prev,
       [id]: selectedValue,
     }));
     console.log("Selected Role for User ID:", id, selectedValue);
 
+    // Make a PUT request to the server to update the role of the user
     axios
       .put(`http://localhost:5000/api/users/${id}`, {
         role_id: selectedValue,
       })
       .then((response) => {
         console.log(response);
+        // Show a success toast if the request was successful
         toast.success("Role updated successfully", {
           autoClose: 2800,
         });
       })
       .catch((error) => {
         console.log(error);
+        // Show an error toast if the request failed
         toast.error("Failed to update role", {
           autoClose: 2800,
         });
       });
   };
 
+  // State for managing the data
   const [data, setData] = useState([{}]);
 
+  // Create rows from the data
   const rows = data.map((item) =>
     createData(item.id, item.name, item.email, item.role_id)
   );
