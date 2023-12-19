@@ -71,45 +71,57 @@ export default function CreateUserAccountDialog({
   const [selectedRow, setSelectedRow] = useState({
     id: "",
     name: "",
-  }); // Added state to track the selected row
+  }); 
+
+  // State for managing the open/close state of the evaluation forms
   const [evaluationFormsOpen, setEvaluationFormsOpen] = React.useState(false);
 
+  // Handler for opening the evaluation forms
   const handleEvaluationFormOpen = () => {
     setEvaluationFormsOpen(true);
   };
 
+  // Handler for closing the evaluation forms
   const handleEvaluationFormClose = () => {
     setEvaluationFormsOpen(false);
   };
+
+  // Handler for saving the changes
   const handleSave = () => {
     console.log("Selected Status Map:", selectedStatusMap);
     handleClose();
-    window.location.reload();
+    window.location.reload(); // Reload the page to reflect the changes
   };
 
+  // Handler for closing the dialog
   const handleClose = () => {
     parentHandleClose();
   };
 
+  // Handler for changing the status of an intern
   const handleStatusChange = (internId, selectedValue) => {
+    // Update the selected status map with the new status
     setSelectedStatusMap((prev) => ({
       ...prev,
       [internId]: selectedValue,
     }));
     console.log("Selected Status :", internId, selectedValue);
 
+    // Make a PUT request to the server to update the status of the intern
     axios
       .put(`http://localhost:5000/api/interns/${internId}`, {
         status: selectedValue,
       })
       .then((response) => {
         console.log(response);
+        // Show a success toast if the request was successful
         toast.success("Status updated successfully", {
           autoClose: 2800,
         });
       })
       .catch((error) => {
         console.log(error);
+        // Show an error toast if the request failed
         toast.error("Failed to update status", {
           autoClose: 2800,
         });
